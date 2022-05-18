@@ -1,0 +1,51 @@
+{% extends "login_base/base_with_navbar.html" %}
+
+{% load static %}
+{% load widget_tweaks %}
+{% load socialaccount %}
+
+{% block title %}로그인 | Hana Reservation{% endblock title %}
+
+{% block content %}
+<div class="account-background">
+  <main class="account">
+    <div class="title">
+      <a href="{% url 'login:index' %}">
+        <img class="logo" src="{% static 'login/assets/coplate-logo.svg' %}" alt="Coplate Logo">
+      </a>
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+      {% for error in form.non_field_errors %}
+        <div class="form-error error-message">{{ error }}</div>
+      {% endfor %}
+      <div>
+        {{ form.login|add_class:"cp-input"| attr:"placeholder:이메일"|add_error_class:"error" }}
+        {% for error in form.login.errors %}
+          <div class="form-error error-message">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <div>
+        {{ form.password|add_class:"cp-input"| attr:"placeholder:비밀번호"|add_error_class:"error" }}
+        {% for error in form.password.errors %}
+          <div class="form-error error-message">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <button class="cp-button" type="submit">로그인</button>
+    </form>
+    
+    <div class="info">
+      <a class="item" href="{% url 'account_reset_password' %}">비밀번호 찾기</a>
+      <a class="item" href="{% url 'account_signup' %}">간편가입</a>
+      </br>
+      <div class="SNS-login">
+        </br>
+        <a href="{% provider_login_url 'naver' %}"><img src={% static "login/images/naver-login.png" %} width="280" height="50"></a>
+        </br>
+        <a href="{% provider_login_url 'kakao' %}"><img src={% static "login/images/kakao-login.png" %} width="280" height="50"></a>
+      </div>
+    </div>
+  </main>
+</div>
+{% endblock content %}

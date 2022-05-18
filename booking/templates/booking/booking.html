@@ -1,0 +1,26 @@
+{% extends '../login_base/base_with_navbar.html' %}
+
+{% load static %}
+
+{% block css %}
+	{% comment %} <link rel="stylesheet" href={% static 'booking/css/booking.css'%}> {% endcomment %}
+{% endblock css %}
+
+{% block content %}
+<div class="account-background">
+	<div class="account">
+		<div class="booking">
+			{% if user.is_authenticated %}
+				<div class="info">
+					<p>안녕하세요, {{user}}님!</p>
+					<p><a href="{% url 'account_change_password' %}">비밀번호 변경하기</a></P>
+				</div>
+			{% else %}
+				<div class="info">
+					<p>로그아웃된 상태입니다.</p>
+				</div>
+			{% endif%}
+		</div>
+	</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,56 @@
+<!-- login -->
+{% extends './base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'login/css/login.css' %}">
+  <script src="{% static 'login/js/naveridlogin_js_sdk_2.0.2.js' %}"></script>
+{% endblock css %}
+
+
+{% block login_container %}
+  <div class="login-form">
+    <form method="POST" action="{% url 'login:user-login' %}">
+      {% csrf_token %}
+      {% comment %} {% include "login/form_errors.html" %} {% endcomment %}
+
+      {% comment %} <input type="email" name="username" class="input-field" placeholder="이메일" id="username">
+      {% if email.errors%}
+        <span style="color:red"> {{email.errors}} </span>
+      {% endif %}
+
+      <input type="password" name="password" class="input-field" placeholder="비밀번호" id="password">
+      {% if password.errors%}
+        <span style="color:red"> {{password.errors}} </span>
+      {% endif %} {% endcomment %}
+
+      <p class="input-field1">{{forms.username}}</p>
+      {% for error in forms.username.errors %}
+        <p class="error">{{error}}</p>
+      {% endfor %}
+
+      <p class="input-field1">{{forms.password}}</p>
+      {% for error in forms.password.errors %}
+        <p class='error'>{{error}}</p>
+      {% endfor %}
+      
+
+      <input type="submit" value="로그인" class="submit-btn">
+    </form>
+
+    <div class="links">
+      <a href="#"><u>비밀번호를 잊어버리셨나요?</u></a>
+    </div>
+
+    <div class="sign-up">
+      <a href={% url 'login:sign-up' %}><button class="sign-up-btn" style="width:150px">간편가입</button></a>
+    </div>
+    
+    <div class="SNS-login">
+      <a href="{% provider_login_url 'naver' %}"><img src={% static "login/images/naver-login.png" %} width="150"></a>
+      <a href="{% provider_login_url 'kakao' %}"><img src={% static "login/images/kakao-login.png" %} width="150"></a>
+    </div>
+  </div>
+{% endblock login_container %}

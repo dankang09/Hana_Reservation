@@ -1,0 +1,10 @@
+<div class="booking">
+    <h1>내 예약 현황</h1>
+        <div class="info">
+            <h3> {{booking.branch_name}} </h3>
+            <p> {{booking.dt_booked}} </p>
+            <p> {{booking.tm_booked}} </p>
+            <p> {{booking.id}} </p>
+            <a href="{% url 'booking:booking-delete' booking.id%}"> 취소하기 </a>
+        </div>
+</div>

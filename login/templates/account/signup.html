@@ -1,0 +1,51 @@
+{% extends "login_base/base_with_navbar.html" %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}회원가입 | Hana Reservation{% endblock title %}
+
+{% block content %}
+<div class="account-background">
+  <main class="account">
+    <div class="title">
+      <a href="{% url 'login:index' %}">
+        <img class="logo" src="{% static 'login/assets/coplate-logo.svg' %}" alt="Coplate Logo">
+      </a>
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+      <div>
+        {{ form.email|add_class:"cp-input"|attr:"placeholder:이메일"|add_error_class:"error" }}
+        {% for error in form.email.errors %}
+          <div class="error-message">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <div>
+        {{ form.name|add_class:"cp-input"|attr:"placeholder:이름"|add_error_class:"error" }}
+        {% for error in form.name.errors %}
+          <div class="error-message">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <div>
+        {{ form.password1|add_class:"cp-input"|attr:"placeholder:비밀번호"|add_error_class:"error" }}
+        {% for error in form.password1.errors %}
+          <div class="error-message">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <div>
+        {{ form.password2|add_class:"cp-input"|attr:"placeholder:비밀번호 확인"|add_error_class:"error" }}
+        {% for error in form.password2.errors %}
+          <div class="error-message">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <button class="cp-button" type="submit">회원가입</button>
+    </form>
+
+    <div class="info">
+      이미 회원이신가요?<a class="link" href="{% url 'account_login' %}">로그인</a>
+    </div>
+  </main>
+</div>
+{% endblock content %}
