@@ -1,0 +1,34 @@
+{% extends "login_base/base.html" %}
+
+{% load static %}
+
+{% block header %}
+<header class="site-header navbar">
+  <div class="content max-width">
+    <a href="{% url "login:index" %}">
+      <img class="logo" src="{% static 'login/assets/coplate-logo.svg' %}" alt="Coplate Logo">
+    </a>
+    <nav>
+      <ul class="navbar">
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'booking:booking-list' %}">예약현황</a></li>
+          {% comment %} <li><a href="{% url 'account_logout' %}">지점검색</a></li> {% endcomment %}
+          <li><a href="{% url 'account_logout' %}">로그아웃</a></li>
+        {% else %}
+          <li><a href="{% url 'account_login' %}">로그인</a></li>
+          <li><a href="{% url 'account_signup' %}">간편가입</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</header>
+{% endblock header %}
+
+{% block footer %}
+<footer class="site-footer">
+  <div class="max-content-width content">
+    <div></div>
+    <div>Hana Reservation</div>
+  </div>
+</footer>
+{% endblock footer %}

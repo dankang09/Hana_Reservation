@@ -1,0 +1,101 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.error {
+  color: red;
+}
+
+/* body {
+  margin: 0;
+  background-color: hsl(168, 75%, 42%);
+  
+} */
+
+.login-form {
+  background-color: #EEEFF1;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.input-field {
+  font-size: 14px;
+  width: 100%;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.submit-btn {
+  font-size: 14px;
+  background-color: #1BBC9B;
+  width: 100%;
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  border: none;
+}
+
+.submit-btn:hover {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.50);
+}
+
+.links {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.links a {
+  font-size: 12px;
+  color: #9B9B9B;
+  text-decoration: none;
+}
+
+.sign-up {
+  margin-top: 10px;
+}
+
+.sign-up a {
+  text-decoration: none;
+}
+
+.sign-up-btn {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 14px;
+  background-color: #1BBC9B;
+  width: 100%;
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  border: none;
+}
+
+.sign-up-btn:hover {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.50);
+}
+
+.SNS-login {
+  margin-top: 10px;
+}
+
+.SNS-login a {
+  display: block;
+  width: 150px;
+  height: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
+
+.SNS-login a:hover {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.50);
+}
+

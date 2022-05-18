@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>영업점 방문 예약 프로그램</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href={% static 'booking/css/base.css' %}>
+    
+    {% block css %}
+    {% endblock css %}
+    
+</head>
+<body>
+    {% include "login/navbar.html" %}
+
+    <div>
+        {% block date_block %}
+        {% endblock date_block %}
+    </div>
+    <hr/>
+
+    <div class="menu_container">
+        {% block menu_container %}
+        {% endblock menu_container %}
+    </div>
+
+    <div class="calender_container">
+        {% block calender_container %}
+        {% endblock calender_container %}
+    </div>
+
+    <div class="clerk_container">
+        {% block clerk_container %}
+        {% endblock clerk_container %}
+    </div>
+    
+    <div class="branch_container">
+        {% block branch_container %}
+        {% endblock branch_container %}
+    </div>
+
+</body>
+</html>

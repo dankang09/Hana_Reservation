@@ -1,0 +1,42 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block css %}
+	<link rel="stylesheet" href={% static 'booking/css/branch.css'%}>
+{% endblock css %}
+
+{% block branch_container %}
+	{% if page.object_list %}
+		<h1> 지점 목록 </h1>
+		{% for branch in page.object_list %}
+		<div class='branch'>
+			{% comment %} <img src= {% get_static_prefix %}{{clerk.img_path}} width= "300px" height="300"> {% endcomment %}
+			<div class='info'>
+				<h3><a href={% url 'booking:branch-detail' branch.id %}>{{branch.name}}</a></h3>
+				<p> {{branch.num}} </p>
+				<p> {{branch.address}} </p>
+				<p> {{branch.telephone}} </p>
+			</div>
+		{% endfor%}
+
+
+	<div class="paginator">
+		{% if page.has_previous %}
+			<a href="?page=1" class="first">first</a>
+			<a href="?page={{ page.previous_page_number }}" class="prev">prev</a>
+		{% endif %}
+		<span>
+			<p>{{page.number}} of {{page.paginator.num_pages}}</p>
+		</span>
+		{% if page_obj.has_next %}
+			<a href="?page={{page.next_page_number}}" class="next">next</a>
+			<a href="?page={{page.paginator.num_pages}}" class="last">last</a>
+		{% endif %}
+	</div>
+	
+	{% else %}
+		<div class="blank">
+			<p>검색된 지점이 없어요. 다시 검색해주세요!</p>
+		</div>
+	{% endif %}
+{% endblock branch_container %}

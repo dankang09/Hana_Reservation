@@ -1,0 +1,113 @@
+{% extends './base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href={% static 'booking/css/calender.css'%}>
+{% endblock css %}
+
+{% block calender_container %}
+	<h2>{{branch.name}} 지점</h2>
+	<link rel="stylesheet" href="{% static 'booking/css/calender.css' %}">
+	<div class="calendar">
+		<div class="calendar_header">
+			<div class="calendar_nav">
+				<button class="nav-btn go-prev"><</button>
+				<span class="year"></span>년
+				<span class="month"></span>월
+				<button class="nav-btn go-next">></button>
+			</div>
+		</div>
+		<div class="calendar_main">
+			<div class="days">
+				<div class="day">일</div>
+				<div class="day">월</div>
+				<div class="day">화</div>
+				<div class="day">수</div>
+				<div class="day">목</div>
+				<div class="day">금</div>
+				<div class="day">토</div>
+			</div>
+			<div class="dates"></div>
+		</div>
+	
+		<!-- 예약 창 -->
+		<div class="resv-wrapper">
+			<div class="resv-bg">
+				<button class="resv-close">X</button>
+				<div class="resv_info">
+					<div class="resv_ym">
+						<div>{{date}}</div>
+					</div>
+					<h2> 
+						직원 및 시간을 선택해 주세요.
+					</h2>
+					<hr/>
+					<h3>직원</h3>
+					
+					<table>
+						{% comment %} <a href={% url 'booking:select-clerk' %}> 명단보기 </a> {% endcomment %}
+					</table>
+					
+					
+					<h3>오전</h3>
+			
+					<div class= "btn">						
+						<button id = "ten" > 10 : 00 </button>
+						<button id = "ten_h"> 10 : 30 </button>
+						<button id = "eleven"> 11 : 00 </button>
+						<button id = "eleven_h"> 11 : 30 </button>						
+					</div>
+					
+					<h3>오후</h3>
+
+					<div class= "btn">
+						<button id = "twelve"> 12 : 00 </button>
+						<button id = "twelve_h"> 12 : 30 </button>
+						<button id = "one"> 1  : 00 </button>
+						<button id = "one_h"> 1  : 30 </button>
+						<button id = "two"> 2  : 00 </button>
+						<button id = "two_h"> 2  : 30 </button>
+						<button id = "three"> 3  : 00 </button>
+						<button id = "three_h"> 3  : 30 </button>
+					</div>
+				
+						
+						
+					{% comment %} <div class="resv-remain">
+						<span>1</span>자리 남음
+					</div>
+					<h3>
+						직원 목록
+					</h3>
+					<div class="resv-list">  
+							
+						<p>Heo Sang <span>12:30</span></p>
+						<p>Sang Won <span>12:30</span></p>
+						<p>Heo Won <span>12:30</span></p>
+					</div>
+					<h3>
+						지점 목록
+					</h3>
+					<div class="resv-event">
+						<p>EVNET 1 <span>12:30</span></p>
+						<p>EVNET 2 <span>14:30</span></p>
+						<p>EVNET 3 <span>17:30</span></p>
+					</div> {% endcomment %}
+				</div>
+				<div class="resv_set">
+					{% comment %} <input class="resv_set time" type="time" name="" id=""> {% endcomment %}
+					<button class="resv_btn purchase" >예약</button>
+					<button class="resv_btn cancel">예약취소</button>
+				</div>
+				
+			</div>
+			
+		</div>
+
+		<a href = {% url 'booking:branch-list' %}>돌아가기</a>
+		
+		
+	</div>
+	<script src="{% static 'booking/js/calender.js' %}"></script>
+	<script src="{% static 'booking/js/reserve.js' %}"></script>
+{% endblock calender_container %}

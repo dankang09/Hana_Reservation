@@ -1,0 +1,14 @@
+@font-face {
+    src: url("../fonts/BMJUA_ttf.ttf");
+    font-family : Jua;
+}
+
+  * {
+    box-sizing: border-box;
+    /* font-family : Jua; */
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+body {
+  background-color : #f0e8d9;
+}
