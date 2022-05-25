@@ -1,0 +1,21 @@
+{% extends '../login_base/base_with_navbar.html' %}
+
+{% block title %}"{{ query }}" | Hana Reservation{% endblock title %}
+
+{% block content %}
+<main class="site-body">
+  <div class="content-list max-content-width">
+    <form class="search-form" action="{% url 'booking:search' %}" method="get">
+      <input class="search-input" name="query" type="text" placeholder="식당, 음식 등을 검색해보세요" required>
+      <button class="cp-button search-button" type="submit">검색</button>
+    </form>
+    <div class="header">
+      <h2>"{{ query }}"에 대한 겸색 결과 ({{ paginator.count }})</h2>
+    </div>
+    {% include 'booking/branch_list.html' with branches=search_results empty_message="검색 결과가 없어요 :(" %}
+    {% comment %} {% if is_paginated %}
+      {% include 'components/pagination.html' with page_obj=page_obj %}
+    {% endif %} {% endcomment %}
+  </div>
+</main>
+{% endblock content %}

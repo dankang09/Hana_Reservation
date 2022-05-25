@@ -12,7 +12,7 @@
       <ul class="navbar">
         {% if user.is_authenticated %}
           <li><a href="{% url 'booking:booking-list' %}">예약현황</a></li>
-          {% comment %} <li><a href="{% url 'account_logout' %}">지점검색</a></li> {% endcomment %}
+          <li><a href="{% url 'booking:branch-list' %}">지점검색</a></li>
           <li><a href="{% url 'account_logout' %}">로그아웃</a></li>
         {% else %}
           <li><a href="{% url 'account_login' %}">로그인</a></li>

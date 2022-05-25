@@ -29,10 +29,16 @@ urlpatterns = [
     path('booking/', include("booking.urls")),
     
     # Allauth
-    path("email-confirmation-done/",
-        TemplateView.as_view(template_name = "login/email_confirmation_done.html"),
-        name = "account_email_confirmation_done"
-        ),
+    # 이메일 인증
+    # path("email-confirmation-required/",
+    #     TemplateView.as_view(template_name = "login/email_confirmation_required.html"),
+    #     name = "account_email_confirmation_required"
+    #     ),
+    # path("email-confirmation-done/",
+    #     TemplateView.as_view(template_name = "login/email_confirmation_done.html"),
+    #     name = "account_email_confirmation_done"
+    #     ),
+
     path("password/change/", 
         CustomPasswordChangeView.as_view(), 
         name = "account_password_change",
