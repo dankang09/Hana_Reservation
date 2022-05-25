@@ -1,0 +1,88 @@
+{% extends '../login_base/base_with_navbar.html' %}
+
+{% load widget_tweaks %}
+
+{% block title %}예약하기 | Hana Reservation{% endblock title %}
+
+{% block content %}
+<main class="site-body">
+  <form class="review-form max-content-width" method="post" autocomplete="off" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="title">
+      {{ form.booking_dates|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:날짜" }}
+      {% for error in form.booking_dates.errors %}
+        <div class="error-message"> {{ error }} </div>
+      {% endfor %}
+    </div>
+
+    {% comment %} <div class="restaurant-name">
+      {{ form.booking_dates|add_class:"cp-input"|attr: "placeholder:날짜" }}
+      {% for error in form.booking_dates.errors %}
+        <div class="error-message"> {{ error }} </div>
+      {% endfor %}
+    </div> {% endcomment %}
+
+    {% comment %} <div class="restaurant-link">
+      <input type="url" name="restaurant_link" maxlength="200" placeholder="네이버 또는 카카오 플레이스 주소" class="cp-input" required id="id_restaurant_link">
+    </div> {% endcomment %}
+
+    <div class="rating">
+      <div class="cp-stars">
+        {% for radio in form.booking_times %}
+          {{ radio }}
+        {% endfor %}
+      </div>
+      {% for error in form.booking_times.errors %}
+        <div class="error-message"> {{ error }} </div>
+      {% endfor %}
+    </div>
+
+    <div class="rating">
+      <div class="cp-stars">
+        {% for radio in form.booking_task %}
+          {{ radio }}
+        {% endfor %}
+      </div>
+      {% for error in form.booking_task.errors %}
+        <div class="error-message"> {{ error }} </div>
+      {% endfor %}
+    </div>
+
+    <div class="content">
+      {{ form.booking_etc|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:기타 요청사항" }}
+      {% for error in form.booking_etc.errors %}
+        <div class="error-message"> {{ error }} </div>
+      {% endfor %}
+    </div>
+    
+
+    {% comment %} <div class="file">
+      <div class="file-content">
+        <div>
+          <input type="file" name="image1" accept="image/*" id="id_image1">
+        </div>
+      </div>
+    </div>
+    <div class="file">
+      <div class="file-content">
+        <div>
+          <input type="file" name="image2" accept="image/*" id="id_image2">
+        </div>
+      </div>
+    </div>
+    <div class="file">
+      <div class="file-content">
+        <div>
+          <input type="file" name="image3" accept="image/*" id="id_image3">
+        </div>
+      </div>
+    </div>  {% endcomment %}
+
+
+    <div class="buttons">
+      <a class="cp-button secondary cancel" href="{% url 'booking:branch-list' %}">취소</a>
+      <button class="cp-button submit" type="submit">완료</button>
+    </div>
+  </form>
+</main>
+{% endblock content %}

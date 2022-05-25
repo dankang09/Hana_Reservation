@@ -152,6 +152,7 @@ AUTHENTICATION_BACKENDS = [
 
 ACCOUNT_SIGNUP_REDIRECT_URL = ""
 LOGIN_REDIRECT_URL = "../booking"
+LOGIN_URL = "account_login"  # 로그인하는 URL은 어디인지
 ACCOUNT_LOGOUT_ON_GET = True  # 로그아웃 누르면 로그아웃 페이지 거치지 않고 바로 실행
 ACCOUNT_LOGOUT_URL = "index"
 ACCOUNT_AUTHENTICATION_METHOD = "email"
@@ -163,7 +164,9 @@ ACCOUNT_SIGNUP_FORM_CLASS = "login.forms.SignupForm" # 회원가입시 커스텀
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True # 회원가입 오류발생시 비밀번호 초기화하지 않기
 ACCOUNT_EMAIL_VARIFICATION = "optional" # 이메일 인증 방법 (mandatory, optional, none)
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True # 이메일 인증링크 클릭시 바로 인증되게 끔
-ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = "account_email_confirmation_done" 
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = (
+    "account_email_confirmation_done"
+)
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = "account_email_confirmation_done"
 PASSWORD_RESET_TIMEOUT_DAYS = 3 # 비밀번호 초기화시 인증링크의 유효기간
 ACCOUNT_EMAIL_SUBJECT_PREFIX = ""  # allauth 이메일인증 메일에서 도메인이 앞에 붙는거 없애주기
