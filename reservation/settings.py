@@ -152,7 +152,7 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-ACCOUNT_SIGNUP_REDIRECT_URL = ""
+ACCOUNT_SIGNUP_REDIRECT_URL = "booking:booking-list"
 LOGIN_REDIRECT_URL = "../booking"
 LOGIN_URL = "account_login"  # 로그인하는 URL은 어디인지
 ACCOUNT_LOGOUT_ON_GET = True  # 로그아웃 누르면 로그아웃 페이지 거치지 않고 바로 실행

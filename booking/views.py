@@ -57,7 +57,7 @@ class SearchView(ListView):
         return context
 
 
-# 본인이 작성한 booking만 볼 수 있게 바꿔야함
+### 본인이 작성한 booking만 볼 수 있게 바꿔야함 ###
 class BookingDetailView(DetailView):
     model = Booking
     template_name = "booking/booking_detail.html"
@@ -89,7 +89,7 @@ class BookingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return EmailAddress.objects.filter(user=user, verified=True).exists()
 
 
-# 본인이 작성한 booking만 삭제할 수 있게 바꿔야함
+# 본인이 작성한 booking만 삭제가능함
 class BookingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Booking
     template_name = "booking/booking_confirm_delete.html"
