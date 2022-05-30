@@ -113,9 +113,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 
     # 커스터마이징 유효성검사
-    # {
-    #     'NAME': 'login.validators.CustomPasswordValidator',
-    # }
+    {
+        'NAME': 'login.validators.CustomPasswordValidator',
+    }
 ]
 
 
@@ -137,6 +137,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/uploads/"
 
 # Auth Settings
 
@@ -164,10 +166,13 @@ ACCOUNT_SIGNUP_FORM_CLASS = "login.forms.SignupForm" # 회원가입시 커스텀
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True # 회원가입 오류발생시 비밀번호 초기화하지 않기
 ACCOUNT_EMAIL_VARIFICATION = "optional" # 이메일 인증 방법 (mandatory, optional, none)
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True # 이메일 인증링크 클릭시 바로 인증되게 끔
+
+# 이메일 인증 완료시 리디렉트되는 URL
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = (
     "account_email_confirmation_done"
 )
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = "account_email_confirmation_done"
+
 PASSWORD_RESET_TIMEOUT_DAYS = 3 # 비밀번호 초기화시 인증링크의 유효기간
 ACCOUNT_EMAIL_SUBJECT_PREFIX = ""  # allauth 이메일인증 메일에서 도메인이 앞에 붙는거 없애주기
 
@@ -177,8 +182,8 @@ SOCIALACCOUNT_AUTO_SIGNUP = True
 
 
 
-# Eamil Settings
-EMAIL_BACKENDS = "django.core.mail.backends.console.EmailBackend"
+# Eamil Settings(콘솔로 이메일 오게 하기 -> 나중에 배포할 때 바꿔야함)
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 SOCIALACCOUNT_PROVIDERS = {
     'kakao': {
