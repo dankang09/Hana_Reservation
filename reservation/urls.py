@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from django.conf import settings  # 미디어파일
+from django.conf.urls.static import static  # 미디어파일
 from login.views import CustomPasswordChangeView
 
 urlpatterns = [
@@ -30,19 +32,20 @@ urlpatterns = [
     
     # Allauth
     # 이메일 인증
-    # path("email-confirmation-required/",
-    #     TemplateView.as_view(template_name = "login/email_confirmation_required.html"),
-    #     name = "account_email_confirmation_required"
-    #     ),
-    # path("email-confirmation-done/",
-    #     TemplateView.as_view(template_name = "login/email_confirmation_done.html"),
-    #     name = "account_email_confirmation_done"
-    #     ),
+    path("email-confirmation-required/",
+        TemplateView.as_view(template_name = "login/email_confirmation_required.html"),
+        name = "account_email_confirmation_required"
+        ),
+    path("email-confirmation-done/",
+        TemplateView.as_view(template_name = "login/email_confirmation_done.html"),
+        name = "account_email_confirmation_done"
+        ),
 
     path("password/change/", 
         CustomPasswordChangeView.as_view(), 
-        name = "account_password_change",
+        name = "account_change_password",
         ), # allauth에 있는 password_change의 url을 오버라이팅
+
     path("naver/login/booking",
         TemplateView.as_view(template_name = "booking/booking.html"),
         name="naver_login_done"
@@ -55,3 +58,5 @@ urlpatterns = [
     # path('accounts/', include('allauth.urls')),
     
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

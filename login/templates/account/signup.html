@@ -29,6 +29,12 @@
         {% endfor %}
       </div>
       <div>
+        {{ form.phone|add_class:"cp-input"|attr:"placeholder:전화번호"|add_error_class:"error" }}
+        {% for error in form.phone.errors %}
+          <div class="error-message">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <div>
         {{ form.password1|add_class:"cp-input"|attr:"placeholder:비밀번호"|add_error_class:"error" }}
         {% for error in form.password1.errors %}
           <div class="error-message">{{ error }}</div>

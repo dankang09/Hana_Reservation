@@ -5,4 +5,8 @@ from .models import User
 # Register your models here.
 
 admin.site.register(User, UserAdmin)
-UserAdmin.fieldsets += (("Custom fields", {"fields": ("name",)}),) # 회원가입시 커스텀필드 추가하고 싶을 때
+
+# 관리자 페이지에 커스텀필드 추가
+UserAdmin.fieldsets += (
+    ("Custom fields", {"fields": ("name", "phone", "profile_pic", "intro")}),
+)

@@ -44,7 +44,8 @@
 								<span class="cp-stars">{{booking.booking_task}}</span>
 							</div>
 							<div class="review-author">
-							<span>{{ booking.booking_etc }}</span>
+								<div class="cp-avatar" style="background-image: url('{{ booking.booking_client.profile_pic.url }}')"></div>
+								<span>{{ booking.booking_client.name }}</span>
 							</div>
 						</div>
 						</div>
