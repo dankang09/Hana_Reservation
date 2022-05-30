@@ -37,14 +37,14 @@ urlpatterns = [
         name = "account_email_confirmation_required"
         ),
     path("email-confirmation-done/",
-        TemplateView.as_view(template_name = "login/email_confirmation_done.html"),
+        TemplateView.as_view(template_name = "account/email_confirmation_done.html"),
         name = "account_email_confirmation_done"
         ),
 
     path("password/change/", 
         CustomPasswordChangeView.as_view(), 
         name = "account_change_password",
-        ), # allauth에 있는 password_change의 url을 오버라이팅
+        ), # allauth에 있는 password/change/ url을 오버라이딩
 
     path("naver/login/booking",
         TemplateView.as_view(template_name = "booking/booking.html"),
