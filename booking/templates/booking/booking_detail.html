@@ -34,10 +34,13 @@
 
     <div class="footer">
       <a class="back-link" href="{% url 'booking:booking-list' %}">&lt; 목록으로</a>
+
+      {% if booking.booking_client == user %}
       <div class="buttons">
-        <a class="cp-button warn" href="{% url 'booking:booking-delete' booking.id %}">삭제</a>
-        <a class="cp-button secondary" href="#">수정</a>
+        <a class="cp-button warn" href="{% url 'booking:booking-delete' booking.id %}"> 예약 취소 </a>
+        {% comment %} <a class="cp-button secondary" href="#">수정</a> {% endcomment %}
       </div>
+      {% endif %}
     </div>
   </article>
 </main>

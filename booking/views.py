@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 
-from braces.views import LoginRequiredMixin
+from braces.views import LoginRequiredMixin, UserPassesTestMixin
 
 # 이메일 인증
 # from allauth.account.models import EmailAddress
@@ -56,6 +56,7 @@ class SearchView(ListView):
         return context
 
 
+# 본인이 작성한 booking만 볼 수 있게 바꿔야함
 class BookingDetailView(DetailView):
     model = Booking
     template_name = "booking/booking_detail.html"
@@ -87,10 +88,17 @@ class BookingCreateView(LoginRequiredMixin, CreateView):
     #     return EmailAddress.objects.filter(user=user, verified=True).exists()
 
 
-class BookingDeleteView(DeleteView):
+# 본인이 작성한 booking만 삭제할 수 있게 바꿔야함
+class BookingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Booking
     template_name = "booking/booking_confirm_delete.html"
     pk_url_kwarg = "booking_id"
 
+    raise_exception = True
+
     def get_success_url(self):
         return reverse("booking:booking-list")
+
+    def test_func(self, user):
+        booking = self.get_object()
+        return booking.booking_client == user

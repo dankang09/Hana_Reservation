@@ -32,30 +32,32 @@
 
 		<div class="contents">
 			{% if user.is_authenticated %}
-		  		{% for booking in bookings %}
-			<a href="{% url 'booking:booking-detail' booking.id %}">
-				<section class="cp-card content">
-				<div class="body">
-					<span class="cp-chip green">{{booking.booking_dates}}</span>
-					<h2 class="title">{{booking.booking_times}}</h2>
-					<div class="metadata">
-					<div class="review-rating">
-						<span class="cp-stars">{{booking.booking_task}}</span>
-					</div>
-					<div class="review-author">
-					<s	pan>{{ booking.booking_etc }}</span>
-					</div>
-				</div>
-				</div>
-			</section>
-			</a>
-		{% empty %}
-			<p class="empty">예약이 없어요 :(</p>
-		{% endfor %}
-		{% else %}
-				<div class="info">
-					<p>로그아웃된 상태입니다.</p>
-				</div>
+					{% for booking in bookings %}
+					{% if booking.booking_client == user %}
+					<a href="{% url 'booking:booking-detail' booking.id %}">
+						<section class="cp-card content">
+						<div class="body">
+							<span class="cp-chip green">{{booking.booking_dates}}</span>
+							<h2 class="title">{{booking.booking_times}}</h2>
+							<div class="metadata">
+							<div class="review-rating">
+								<span class="cp-stars">{{booking.booking_task}}</span>
+							</div>
+							<div class="review-author">
+							<span>{{ booking.booking_etc }}</span>
+							</div>
+						</div>
+						</div>
+					</section>
+					</a>
+					{% comment %} {% empty %}
+					<p class="empty">예약이 없어요 :(</p> {% endcomment %}
+					{% endif %}
+					{% endfor %}
+			{% else %}
+			<div class="info">
+				<p>로그아웃된 상태입니다.</p>
+			</div>
 			{% endif %}
 		</div>
 
