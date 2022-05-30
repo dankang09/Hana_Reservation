@@ -7,7 +7,7 @@
   <form class="cp-dialog review-confirm-delete" method="post">
     {% csrf_token %}
     <span class="content">정말 예약을 취소하시겠습니까?</span>
-    <button class="cp-button warn" type="submit">삭제</button>
+    <button class="cp-button warn" type="submit">예약 취소</button>
     <a class="cp-button secondary" href="{% url 'booking:booking-detail' booking.id %}">취소</a>
   </form>
 </main>
