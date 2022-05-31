@@ -101,7 +101,8 @@ class BookingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse("booking:profile")
+        user = self.request.user
+        return reverse("booking:profile", args=[user.id])
 
     # 이메일 인증
     def test_func(self, user):
@@ -118,7 +119,8 @@ class BookingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     raise_exception = True
 
     def get_success_url(self):
-        return reverse("booking:profile")
+        user = self.request.user
+        return reverse("booking:profile", args=[user.id])
 
     # 본인이 한 예약인지 확인
     def test_func(self, user):
