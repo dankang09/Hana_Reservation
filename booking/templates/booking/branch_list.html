@@ -28,15 +28,15 @@
             <section class="cp-card content">
               {% comment %} <div class="thumb" style="background-image: url('#');"></div> {% endcomment %}
               <div class="body">
-                <span class="cp-chip green">{{branch.branch_name}}</span>
-                <h2 class="title">{{branch.branch_name}}</h2>
+                <span class="cp-chip green">{{ branch.branch_name }} 지점</span>
+                <h2 class="title">{{ branch.branch_address }}</h2>
                 {% comment %} <date class="date">2021년 2월 25일</date> {% endcomment %}
                 <div class="metadata">
                   <div class="review-rating">
-                    <span class="cp-stars">{{branch.branch_address}}</span>
+                    <span class="cp-stars">{{ branch.branch_tel }}</span>
                   </div>
                   <div class="review-author">
-                    <span>{{ branch.branch_tel }}</span>
+                    {% comment %} <span>{{ branch.branch_tel }}</span> {% endcomment %}
                   </div>
                 </div>
               </div>
