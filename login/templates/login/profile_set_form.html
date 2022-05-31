@@ -1,0 +1,50 @@
+{% extends "login_base/base.html" %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}환영합니다! | Hana Reservation{% endblock title %}
+
+{% block content %}
+<div class="account-background">
+  <main class="profile-form">
+    <div class="logo">
+      <img class="logo" src="{% static 'login/assets/coplate-logo.svg' %}" alt="Coplate Logo">
+    </div>
+    <p class="welcome-message">
+      환영합니다! 직원에게 소개할 <strong>프로필</strong>을 작성해주세요
+    </p>
+    <form method="post" enctype="multipart/form-data" autocomplete="off">
+      {% csrf_token %}
+      <div class="profile">
+        <div class="profile-pic cp-avatar large" style="background-image: url('{{ user.profile_pic.url }}')"></div>
+        <div class="file">
+          {{ form.profile_pic }}
+        </div>
+      </div>
+      <div class="nickname">
+        {{ form.name|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:이름" }}
+        {% for error in form.name.errors %}
+          <div class="error-message">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <div class="nickname">
+        {{ form.phone|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:휴대폰번호" }}
+        {% for error in form.phone.errors %}
+          <div class="error-message">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <div class="content">
+        {{ form.intro|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:자신을 소개해 주세요!" }}
+        {% for error in form.intro.errors %}
+          <div class="error-message">{{ error }}</div>
+        {% endfor %}
+      </div>
+      <div class="buttons">
+        <button class="cp-button" type="submit">완료</button>
+      </div>
+    </form>
+  </main>
+</div>
+{% endblock content %}
+  

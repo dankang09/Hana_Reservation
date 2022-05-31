@@ -22,7 +22,7 @@
           <div class="error-message">{{ error }}</div>
         {% endfor %}
       </div>
-      <div>
+      {% comment %} <div>
         {{ form.name|add_class:"cp-input"|attr:"placeholder:이름"|add_error_class:"error" }}
         {% for error in form.name.errors %}
           <div class="error-message">{{ error }}</div>
@@ -33,7 +33,7 @@
         {% for error in form.phone.errors %}
           <div class="error-message">{{ error }}</div>
         {% endfor %}
-      </div>
+      </div> {% endcomment %}
       <div>
         {{ form.password1|add_class:"cp-input"|attr:"placeholder:비밀번호"|add_error_class:"error" }}
         {% for error in form.password1.errors %}

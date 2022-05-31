@@ -12,9 +12,11 @@
         class="cp-avatar large profile-pic" style="background-image: url('{{ profile_user.profile_pic.url }}')"></div>
       <div class="info">
         <h1 class="username"> {{ profile_user.name }}</h1>
+        {% if profile_user.intro %}
         <div>
           <p class="cp-chip intro">{{ profile_user.intro }}</p>
         </div>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -48,8 +50,8 @@
               <div class="review-author">
                 <div
                   class="cp-avatar"
-                  style="background-image: url('{{ booking.booking_client.profile_pic.url }}')"
-                ></div>
+                  style="background-image: url('{{ booking.booking_client.profile_pic.url }}')">
+                </div>
                 <span>{{ booking.booking_client.name }}</span>
               </div>
             </div>
