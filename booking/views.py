@@ -85,9 +85,13 @@ class BookingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     redirect_unauthenticated_users = True
     raise_exception = confirmation_required_redirect
 
-    def form_valid(self, form):  # 메소드 오버라이팅(현재 로그인된 유저 정보 넘기기)
+    def form_valid(self, form):  # 메소드 오버라이팅
+        # 현재 로그인된 유저 정보를 폼에 넣기
         form.instance.booking_client = self.request.user
-        form.instance.booking_branch = Branch.objects.get(id = 1)
+        # url에서 branch_id 가져오기
+        branch_id = self.kwargs.get("branch_id")
+        # 가져온 branch_id로 브랜치 객체 찾아서 폼에 넣기
+        form.instance.booking_branch = Branch.objects.get(id = branch_id)
         return super().form_valid(form)
 
     def get_success_url(self):

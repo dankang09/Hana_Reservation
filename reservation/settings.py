@@ -183,8 +183,7 @@ SOCIALACCOUNT_AUTO_SIGNUP = False  # SNS로그인 선택시 회원가입화면 �
 
 
 
-# Eamil Settings(콘솔로 이메일 오게 하기 -> 나중에 배포할 때 바꿔야함)
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
 
 SOCIALACCOUNT_PROVIDERS = {
     'kakao': {
@@ -208,3 +207,12 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+# Eamil Settings
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # 콘솔창에 이메일 띄우기
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"  # smtp 이용하여 실제 이메일 보내기
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "dankang09@gmail.com"
+EMAIL_HOST_PASSWORD = "qfdmzixkuubvxksp"
