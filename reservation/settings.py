@@ -60,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'booking.middleware.ProfileSetupMiddleware',  # AuthenticationMiddleware 밑에 써야함
 ]
 
 ROOT_URLCONF = 'reservation.urls'
@@ -152,7 +153,7 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-ACCOUNT_SIGNUP_REDIRECT_URL = "login:index"
+ACCOUNT_SIGNUP_REDIRECT_URL = "login:profile-set"
 LOGIN_REDIRECT_URL = "login:index"
 LOGIN_URL = "account_login"  # 로그인하는 URL은 어디인지
 ACCOUNT_LOGOUT_ON_GET = True  # 로그아웃 누르면 로그아웃 페이지 거치지 않고 바로 실행
@@ -162,7 +163,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_SESSION_REMEMBER = True
 # SESSION_COOKIE_AGE = 3600  # 로그인 유지 기간(초 단위)
-ACCOUNT_SIGNUP_FORM_CLASS = "login.forms.SignupForm" # 회원가입시 커스텀필드 추가하고 싶을 때
+# ACCOUNT_SIGNUP_FORM_CLASS = "login.forms.SignupForm" # 회원가입시 커스텀필드 추가하고 싶을 때 -> 프로필설정페이지 구현하면서 주석처리함
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True # 회원가입 오류발생시 비밀번호 초기화하지 않기
 ACCOUNT_EMAIL_VARIFICATION = "optional" # 이메일 인증 방법 (mandatory, optional, none)
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True # 이메일 인증링크 클릭시 바로 인증되게 끔

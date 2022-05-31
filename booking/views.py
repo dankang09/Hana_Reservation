@@ -20,17 +20,6 @@ from login.models import User
 
 # Create your views here.
 
-# def booking(request):
-#     return render(request, 'booking/booking.html')
-
-# 본인이 작성한 booking만 볼 수 있게 바꿔야함
-# class BookingView(ListView):
-#     model = Booking
-#     template_name = "booking/booking.html"
-#     context_object_name = "bookings"
-#     paginate_by = 4
-#     ordering = ["booking_dates"]
-
 class ProfileView(DetailView):
     model = User
     template_name = "booking/profile.html"
@@ -40,8 +29,9 @@ class ProfileView(DetailView):
 
     # 템플릿으로 전달되는 context에 추가해주기 (오버라이드)
     def get_context_data(self, **kwargs):
-        # context는 딕셔너리형
+        # 기존의 context 가져오기
         context = super().get_context_data(**kwargs)
+        # url에 있는 <int:user_id>에서 유저아이디를 가져오기
         user_id = self.kwargs.get("user_id")
         # 유저가 한 예약 최신 예약 4개 가져오기
         context["user_bookings"] = Booking.objects.filter(booking_client=user_id).order_by("booking_dates")[:4]
