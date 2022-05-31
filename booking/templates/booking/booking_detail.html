@@ -34,7 +34,7 @@
     </div>
 
     <div class="footer">
-      <a class="back-link" href="{% url 'booking:booking-list' %}">&lt; 목록으로</a>
+      <a class="back-link" href="{% url 'booking:profile' user.id %}">&lt; 목록으로</a>
 
       {% if booking.booking_client == user %}
       <div class="buttons">

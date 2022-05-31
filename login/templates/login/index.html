@@ -24,7 +24,7 @@
     </p>
     
     {% if user.is_authenticated %}
-    <a href={% url 'booking:booking-list' %}>내 예약 확인하기</a>
+    <a href={% url 'booking:profile' user.id %}>내 예약 확인하기</a>
     {% else %}
     <a href={% url 'account_login' %}>지금 바로 간편로그인하기</a>
     {% endif %} 

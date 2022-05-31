@@ -152,8 +152,8 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-ACCOUNT_SIGNUP_REDIRECT_URL = "booking:booking-list"
-LOGIN_REDIRECT_URL = "../booking"
+ACCOUNT_SIGNUP_REDIRECT_URL = "login:index"
+LOGIN_REDIRECT_URL = "login:index"
 LOGIN_URL = "account_login"  # 로그인하는 URL은 어디인지
 ACCOUNT_LOGOUT_ON_GET = True  # 로그아웃 누르면 로그아웃 페이지 거치지 않고 바로 실행
 ACCOUNT_LOGOUT_URL = "index"
@@ -177,8 +177,8 @@ PASSWORD_RESET_TIMEOUT_DAYS = 3 # 비밀번호 초기화시 인증링크의 유�
 ACCOUNT_EMAIL_SUBJECT_PREFIX = ""  # allauth 이메일인증 메일에서 도메인이 앞에 붙는거 없애주기
 
 # Allauth: social login settings
-SOCIALACCOUNT_LOGIN_ON_GET = True
-SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_LOGIN_ON_GET = True  # SNS로그인 선택시 확인화면 생략여부
+SOCIALACCOUNT_AUTO_SIGNUP = False  # SNS로그인 선택시 회원가입화면 연동 생략여부
 
 
 

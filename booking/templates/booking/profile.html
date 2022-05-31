@@ -1,0 +1,65 @@
+{% extends "login_base/base_with_navbar.html" %}
+
+{% load static %} 
+
+{% block title %}{{ profile_user.name }} | Hana Reservation{% endblock title %} 
+
+{% block content %}
+<main class="site-body">
+  <div class="profile-header">
+    <div class="content max-content-width">
+      <div
+        class="cp-avatar large profile-pic" style="background-image: url('{{ profile_user.profile_pic.url }}')"></div>
+      <div class="info">
+        <h1 class="username"> {{ profile_user.name }}</h1>
+        <div>
+          <p class="cp-chip intro">{{ profile_user.intro }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-list max-content-width">
+    <div class="header">
+      <h2>{{ profile_user.name }}님의 예약 현황</h2>
+      <a class="cp-ic-button after circle morereview" href="{% url 'booking:branch-list' %}">
+        지점 전체보기
+      </a>
+    </div>
+
+    <div class="contents">
+      {% for booking in user_bookings %}
+      <a href="{% url 'booking:booking-detail' booking.id %}">
+        <div class="cp-card content">
+          <div
+            class="thumb"
+            style="background-image: url('{{ booking.image1.url }}');"
+          ></div>
+          <div class="body">
+            <span class="cp-chip green">{{ booking.booking_branch.branch_name }} 지점</span>
+            <h2 class="title">{{ booking.booking_branch.branch_address }}</h2>
+            <date class="date">{{ booking.booking_dates|date:"Y년 n월 j일" }}</date>
+            <div class="metadata">
+              <div class="review-rating">
+                <span class="cp-stars">
+                  {% comment %} {% for i in ""|ljust:review.rating %}★{% endfor %} {% endcomment %}
+                </span>
+              </div>
+              <div class="review-author">
+                <div
+                  class="cp-avatar"
+                  style="background-image: url('{{ booking.booking_client.profile_pic.url }}')"
+                ></div>
+                <span>{{ booking.booking_client.name }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+      {% empty %}
+      <p class="empty">아직 리뷰가 없어요 :(</p>
+      {% endfor %}
+    </div>
+  </div>
+</main>
+{% endblock content %}

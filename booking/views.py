@@ -14,19 +14,38 @@ from django.db.models import Q
 from booking.models import Branch, Booking
 from booking.forms import BookingForm
 
+# 프로필 구현
+from login.models import User
+
 
 # Create your views here.
 
-def booking(request):
-    return render(request, 'booking/booking.html')
+# def booking(request):
+#     return render(request, 'booking/booking.html')
 
 # 본인이 작성한 booking만 볼 수 있게 바꿔야함
-class BookingView(ListView):
-    model = Booking
-    template_name = "booking/booking.html"
-    context_object_name = "bookings"
-    paginate_by = 4
-    ordering = ["booking_dates"]
+# class BookingView(ListView):
+#     model = Booking
+#     template_name = "booking/booking.html"
+#     context_object_name = "bookings"
+#     paginate_by = 4
+#     ordering = ["booking_dates"]
+
+class ProfileView(DetailView):
+    model = User
+    template_name = "booking/profile.html"
+    pk_url_kwarg = "user_id"
+    # user_id에 해당하는 유저는 "profile_user"라는 이름으로 템플릿에게 전달됨
+    context_object_name = "profile_user"  # 안 쓰면 default는 User가 됨
+
+    # 템플릿으로 전달되는 context에 추가해주기 (오버라이드)
+    def get_context_data(self, **kwargs):
+        # context는 딕셔너리형
+        context = super().get_context_data(**kwargs)
+        user_id = self.kwargs.get("user_id")
+        # 유저가 한 예약 최신 예약 4개 가져오기
+        context["user_bookings"] = Booking.objects.filter(booking_client=user_id).order_by("booking_dates")[:4]
+        return context
 
 
 class BranchView(ListView):
@@ -82,7 +101,7 @@ class BookingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse("booking:booking-list")
+        return reverse("booking:profile")
 
     # 이메일 인증
     def test_func(self, user):
@@ -99,7 +118,7 @@ class BookingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     raise_exception = True
 
     def get_success_url(self):
-        return reverse("booking:booking-list")
+        return reverse("booking:profile")
 
     # 본인이 한 예약인지 확인
     def test_func(self, user):
