@@ -11,8 +11,11 @@
     <nav>
       <ul class="navbar">
         {% if user.is_authenticated %}
+          {% if user.is_staff %}
+            <li><a href="{% url 'admin:index' %}">관리자</a></li>
+          {% endif %}
           <li><a href="{% url 'booking:profile' user.id %}">예약현황</a></li>
-          <li><a href="{% url 'booking:branch-list' %}">지점검색</a></li>
+          {% comment %} <li><a href="{% url 'booking:branch-list' %}">지점검색</a></li> {% endcomment %}
           <li><a href="{% url 'account_logout' %}">로그아웃</a></li>
         {% else %}
           <li><a href="{% url 'account_login' %}">로그인</a></li>
