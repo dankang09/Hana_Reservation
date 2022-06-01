@@ -69,7 +69,7 @@ a.cp-button {
 .cp-button {
   border: none;
   outline: none;
-  padding: 14px 28px;
+  padding: 16px 28px;
   border-radius: 9999px;
   font-size: 19px;
   font-weight: 400;
@@ -77,6 +77,11 @@ a.cp-button {
   cursor: pointer;
   background-color: var(--button-primary-background);
   color: var(--button-text);
+}
+
+.cp-button.small {
+  padding: 11px 28px;
+  font-size: 17px;
 }
 
 .cp-button:hover,
@@ -94,7 +99,7 @@ a.cp-button {
   background-color: var(--button-warn-background);
 }
 
-.cp-button.secondary:hover,
+.cp-button.secondary:hover:not(:disabled),
 .cp-button.secondary:active,
 .cp-button.warn:hover,
 .cp-button.warn:active {
@@ -108,6 +113,10 @@ a.cp-button {
   background-color: transparent;
   color: #e1811b;
   border: 1px solid #e1811b;
+}
+
+.cp-button:disabled {
+  cursor: not-allowed;
 }
 
 /* Icon Button */
@@ -165,7 +174,6 @@ a.cp-button {
   background-image: url("../icons/ic-morereview.svg");
 }
 
-
 .cp-ic-button.circle {
   font-size: 20px;
   font-weight: bold;
@@ -207,14 +215,15 @@ textarea.cp-input:focus,
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-input.cp-input:placeholder,
-textarea.cp-input:placholder,
-.cp-input input:placeholder {
+input.cp-input::placeholder,
+textarea.cp-input::placeholder,
+.cp-input input::placeholder {
   color: var(--input-placeholder);
 }
 
 textarea.cp-input {
   line-height: 1.82;
+  resize: none;
 }
 
 .cp-input.error {
@@ -285,6 +294,11 @@ textarea.cp-input {
 .cp-avatar.large {
   width: 100px;
   height: 100px;
+}
+
+.cp-avatar.medium {
+  width: 60px;
+  height: 60px;
 }
 
 /* Card */

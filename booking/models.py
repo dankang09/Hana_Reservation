@@ -8,6 +8,7 @@ class Branch(models.Model):
     branch_num = models.CharField(max_length=4)
     branch_tel = models.CharField(max_length=11)
     branch_address = models.TextField()
+    branch_image = models.ImageField(upload_to="branch_pics", blank=True)
 
     def __str__(self):
         return self.branch_name + '(' + str(self.branch_num) + ')'
