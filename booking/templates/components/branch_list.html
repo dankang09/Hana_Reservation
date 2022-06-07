@@ -1,0 +1,24 @@
+<div class="contents">
+    {% for branch in branches %}
+    <a href="{% url 'booking:booking-create' branch.id %}">
+        <section class="cp-card content">
+        <div class="thumb" style="background-image: url('{{ branch.branch_image.url }}');"></div>
+        <div class="body">
+            <span class="cp-chip green">{{ branch.branch_name }} 지점</span>
+            <h2 class="title">{{ branch.branch_address }}</h2>
+            {% comment %} <date class="date">{{  }}</date> {% endcomment %}
+            <div class="metadata">
+            <div class="review-rating">
+                <span class="cp-stars">{{ branch.branch_tel }}</span>
+            </div>
+            <div class="review-author">
+                {% comment %} <span>{{ branch.branch_tel }}</span> {% endcomment %}
+            </div>
+            </div>
+        </div>
+        </section>
+    </a>
+    {% empty %}
+    <p class="empty">{{ empty_message }}</p>
+    {% endfor %}
+</div>
