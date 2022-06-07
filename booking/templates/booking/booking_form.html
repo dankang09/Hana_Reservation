@@ -8,6 +8,9 @@
 <main class="site-body">
   <form class="review-form max-content-width" method="post" autocomplete="off" enctype="multipart/form-data">
     {% csrf_token %}
+
+    {% comment %} {% include 'components/calender.html' with branches=branches %} {% endcomment %}
+
     <div class="title">
       {{ form.booking_dates|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:날짜" }}
       {% for error in form.booking_dates.errors %}
@@ -23,10 +26,24 @@
     </div> {% endcomment %}
 
     {% comment %} <div class="restaurant-link">
-      <input type="url" name="restaurant_link" maxlength="200" placeholder="네이버 또는 카카오 플레이스 주소" class="cp-input" required id="id_restaurant_link">
+    <input type="url" name="restaurant_link" maxlength="200" placeholder="네이버 또는 카카오 플레이스 주소" class="cp-input" required id="id_restaurant_link">
     </div> {% endcomment %}
 
-    <div class="rating">
+    <div class="restaurant-name">
+      {{ form.booking_times|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:시간" }}
+      {% for error in form.booking_times.errors %}
+        <div class="error-message"> {{ error }} </div>
+      {% endfor %}
+    </div>
+
+    <div class="title">
+      {{ form.booking_task|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:업무" }}
+      {% for error in form.booking_task.errors %}
+        <div class="error-message"> {{ error }} </div>
+      {% endfor %}
+    </div>
+
+    {% comment %} <div class="rating">
       <div class="cp-stars">
         {% for radio in form.booking_times %}
           {{ radio }}
@@ -46,7 +63,7 @@
       {% for error in form.booking_task.errors %}
         <div class="error-message"> {{ error }} </div>
       {% endfor %}
-    </div>
+    </div> {% endcomment %}
 
     <div class="content">
       {{ form.booking_etc|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:기타 요청사항" }}

@@ -2,6 +2,7 @@
 # from socket import fromshare
 from django import forms
 from booking.models import Booking
+import datetime
 
 class BookingForm(forms.ModelForm):
     class Meta:
@@ -13,6 +14,9 @@ class BookingForm(forms.ModelForm):
             "booking_etc",
         ]
         widgets = {
-            "booking_times": forms.RadioSelect,
-            "booking_task": forms.RadioSelect,
+            # "booking_dates": forms.SelectDateWidget(years=["2022"],),
+            "booking_dates": forms.DateInput(format=('%m/%d/%Y'),
+                attrs={'class':'form-control', 'placeholder':'날짜를 선택해주세요!', 'type':'date'}),
+            # "booking_times": forms.Select,
+            # "booking_task": forms.SelectMultiple,
         }
