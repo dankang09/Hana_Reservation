@@ -41,7 +41,7 @@ class ProfileSetView(LoginRequiredMixin, UpdateView):
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = User
     form_class = ProfileForm
-    template_name = "login/profile_set_form.html"
+    template_name = "login/profile_update_form.html"
 
     # 업데이트 해야할 오브젝트(유저)가 뭔지 UpdateView에게 알려주기(오버라이드)
     # 하나의 오브젝트를 다루는 DetailView, DeleteView, CreateView 는 get_object를 오버라이드 할 수 있음

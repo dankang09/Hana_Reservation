@@ -34,7 +34,7 @@ class ProfileView(DetailView):
         # url에 있는 <int:user_id>에서 유저아이디를 가져오기
         user_id = self.kwargs.get("user_id")
         # 유저가 한 예약 최신 예약 4개 가져오기
-        context["user_bookings"] = Booking.objects.filter(booking_client=user_id).order_by("booking_dates")[:4]
+        context["user_bookings"] = Booking.objects.filter(booking_client=user_id).order_by("-booking_dates")[:4]
         return context
 
 
