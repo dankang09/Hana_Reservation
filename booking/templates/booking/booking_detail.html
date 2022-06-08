@@ -2,44 +2,90 @@
 
 {% load static %}
 
-{% block title %}{{ review.title }} | Hana Reservation{% endblock title %}
+{% block title %}{{ booking.booking_branch.branch_name }}지점 | Hana Booking{% endblock title %}
 
 {% block content %}
 <main class="site-body">
   <article class="review-detail max-content-width">
     <div class="review-info">
       <div class="restaurant-name">
-        <span class="cp-chip green">{{ booking.booking_branch.branch_name }}</span>
+        <span class="cp-chip green">{{ booking.booking_branch.branch_name }}지점</span>
       </div>
-      <h1 class="title"> {{ booking.booking_task }}</h1>
+      <h1 class="title"> 
+        {% if booking.booking_task == 1 %}
+          개인/가계 예금(수신)업무
+        {% elif booking.booking_task == 2 %}
+          개인/가계 대출(여신)업무"
+        {% elif booking.booking_task == 3 %}
+          개인/가계 외환
+        {% elif booking.booking_task == 4 %}
+          기업 예금(수신)업무
+        {% elif booking.booking_task == 5 %}
+          기업 대출(여신)업무
+        {% else %}
+          기업 외환 업무
+        {% endif %}
+      </h1>
       <div class="author">
-        <a class="review-author" href="#">
+        <a class="review-author" href="{% url 'login:profile-update' %}">
           <div class="cp-avatar" style="background-image: url('{{ booking.booking_client.profile_pic.url }}')"></div>
           <span>{{ booking.booking_client.name }}</span>
         </a>
       </div>
-      <date class="date">2021년 2월 25일</date>
+      <date class="date">
+        {{ booking.booking_dates }}</date>
+        {% if booking.booking_times == 1 %}
+            오전 9시 정각
+          {% elif booking.booking_times == 2 %}
+            오전 9시 30분
+          {% elif booking.booking_times == 3 %}
+            오전 10시 정각
+          {% elif booking.booking_times == 4 %}
+            오전 10시 30분
+          {% elif booking.booking_times == 5 %}
+            오전 11시 정각
+          {% elif booking.booking_times == 6 %}
+            오전 11시 30분
+          {% elif booking.booking_times == 7 %}
+            오후 12시 정각
+          {% elif booking.booking_times == 8 %}
+            오후 12시 30분
+          {% elif booking.booking_times == 9 %}
+            오후 1시 정각
+          {% elif booking.booking_times == 10 %}
+            오후 1시 30분
+          {% elif booking.booking_times == 11 %}
+            오후 2시 정각
+          {% elif booking.booking_times == 12 %}
+            오후 2시 30분
+          {% elif booking.booking_times == 13 %}
+            오후 3시 정각
+          {% else %}
+            오후 3시 30분
+          {% endif %}
       <div class="review-rating">
-        <span class="cp-stars">★★★★★</span>
+        <span class="cp-stars"> 
+        </span>
       </div>
     </div>
 
     <div class="content">
-      <img class="thumb" src="#">
-      <p class="content">리뷰 내용</p>
+      {% if booking.booking_branch.branch_image %}
+        <img class="thumb" src="{{ booking.booking_branch.branch_image.url }}">
+      {% endif %}
+      <p class="content">예약 내용</p>
       <a class="location" target="_blank" href="#">
-        <img class="cp-icon" src="{% static 'coplate/icons/ic-pin.svg' %}" alt="Pin Icon">
+        <img class="cp-icon" src="{% static 'login/icons/ic-pin.svg' %}" alt="Pin Icon">
         <span>위치보기</span>
       </a>
     </div>
 
     <div class="footer">
       <a class="back-link" href="{% url 'booking:profile' user.id %}">&lt; 목록으로</a>
-
       {% if booking.booking_client == user %}
       <div class="buttons">
         <a class="cp-button warn" href="{% url 'booking:booking-delete' booking.id %}"> 예약 취소 </a>
-        {% comment %} <a class="cp-button secondary" href="#">수정</a> {% endcomment %}
+        <a class="cp-button secondary" href="#">수정</a>
       </div>
       {% endif %}
     </div>

@@ -1,0 +1,11 @@
+.info .SNS-login {
+    width: 100%;
+    padding: 5px;
+    margin: 5px;
+    display:inline-flex;
+}
+
+.info .SNS-login a {
+    float: left;
+    padding: 5px;
+}

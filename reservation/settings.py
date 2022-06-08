@@ -179,7 +179,7 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = ""  # allauth 이메일인증 메일에서 도메
 
 # Allauth: social login settings
 SOCIALACCOUNT_LOGIN_ON_GET = True  # SNS로그인 선택시 확인화면 생략여부
-SOCIALACCOUNT_AUTO_SIGNUP = False  # SNS로그인 선택시 회원가입화면 연동 생략여부
+SOCIALACCOUNT_AUTO_SIGNUP = True  # SNS로그인 선택시 회원가입화면 연동 생략여부
 
 
 

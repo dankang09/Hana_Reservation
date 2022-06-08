@@ -1,0 +1,14 @@
+select {
+    width: 100%;
+    font-size: 17px;
+    letter-spacing: -0.3px;
+    padding: 16px 24px;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-background);
+    outline: none;
+    border-radius: 7px;
+}
+    
+select::-ms-expand {
+    display: none;
+}
