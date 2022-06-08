@@ -1,4 +1,5 @@
 from django.db import models
+from booking.validators import validate_branch_link
 from login.models import User
 
 # Create your models here.
@@ -9,6 +10,7 @@ class Branch(models.Model):
     branch_tel = models.CharField(max_length=11)
     branch_address = models.TextField()
     branch_image = models.ImageField(upload_to="branch_pics", blank=True)
+    branch_link = models.URLField(validators=[validate_branch_link], blank=True)
 
     def __str__(self):
         return self.branch_name + '(' + str(self.branch_num) + ')'
