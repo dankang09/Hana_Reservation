@@ -177,7 +177,7 @@ ul.navbar li {
 }
 
 .content-list .content .title {
-  font-size: 22px;
+  font-size: 17px;
   font-weight: normal;
   line-height: 33px;
   letter-spacing: -0.33px;
@@ -261,7 +261,7 @@ ul.navbar li {
 
 .main-header {
   margin-top: -70px;
-  padding-bottom: 160px;
+  padding-bottom: 100px;
   border-bottom: 1px solid var(--main-header-border);
   background-color: var(--main-header-background);
   position: relative;

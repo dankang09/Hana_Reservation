@@ -1,5 +1,5 @@
 from django.db import models
-from booking.validators import validate_branch_link
+from .validators import validate_branch_link
 from login.models import User
 
 # Create your models here.

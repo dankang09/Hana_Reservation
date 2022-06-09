@@ -19,7 +19,7 @@
   --input-focus-background: #fffdf3;
   --input-error: #e6584e;
   --input-error-border: #e6584e;
-  --chip-border: #e3e1dc;
+  --chip-border: #ecp-chip green3e1dc;
   --chip-text: #2f2c28;
   --chip-green-background: #effaf9;
   --chip-green-text: #79c9c5;
@@ -30,6 +30,7 @@
   --dialog-background: #f6f5f3;
   --dialog-info: #e1811b;
   --box-border: #e3e1dc;
+  --main-logo: #2B8C3E;
 }
 
 * {
@@ -264,10 +265,10 @@ textarea.cp-input {
 .cp-chip {
   display: inline-block;
   padding: 0 17px;
-  font-size: 15px;
+  font-size: 20px;
   line-height: 32px;
   color: var(--chip-text);
-  border: 1px solid var(--chip-border);
+  border: 1px solid var(--main-logo);
   border-radius: 9999px;
 }
 
