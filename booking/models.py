@@ -52,3 +52,13 @@ class Booking(models.Model):
     booking_client = models.ForeignKey(User, on_delete=models.CASCADE)
     booking_branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
     
+
+class Comment(models.Model):
+    content = models.TextField(max_length=200, blank=False)
+    dt_created = models.DateTimeField(auto_now_add=True)
+    dt_updated = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment_branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.content[:30]
