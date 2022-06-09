@@ -46,6 +46,12 @@ class BranchView(ListView):
     ordering = ["branch_name"]
 
 
+class BranchDetailView(DetailView):
+    model = Branch
+    template_name = "booking/branch_detail.html"
+    pk_url_kwarg = "branch_id"
+
+
 class SearchView(ListView):
     model = Branch
     context_object_name = 'search_results'

@@ -11,6 +11,7 @@ urlpatterns = [
 
     path('branch/', views.BranchView.as_view(), name='branch-list'),
     path('branch/search/', views.SearchView.as_view(), name='search'),
+    path('branch/<int:branch_id>/', views.BranchDetailView.as_view(), name='branch-detail'),
     path('branch/<int:branch_id>/create/', views.BookingCreateView.as_view(), name="booking-create"),
     
 ]
