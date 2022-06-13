@@ -3,20 +3,17 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 
-from braces.views import LoginRequiredMixin, UserPassesTestMixin
-
-# 이메일 인증
-from allauth.account.models import EmailAddress
-from braces.views import UserPassesTestMixin
-from login.functions import confirmation_required_redirect
+from braces.views import LoginRequiredMixin
 
 from django.db.models import Q
-from booking.models import Branch, Booking
-from booking.forms import BookingForm
+from booking.models import Branch, Booking, Comment
+from booking.forms import BookingForm, CommentForm
 
 # 프로필 구현
 from login.models import User
 
+# 리팩터링된 접근제어
+from .mixins import LoginAndVerificationRequiredMixin, LoginAndOwnershipRequiredMixin
 
 # Create your views here.
 
@@ -51,6 +48,25 @@ class BranchDetailView(DetailView):
     template_name = "booking/branch_detail.html"
     pk_url_kwarg = "branch_id"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = CommentForm()
+        return context
+
+
+class CommentCreateView(LoginAndVerificationRequiredMixin, CreateView):
+    http_method_names = ['post']
+    model = Comment
+    form_class = CommentForm
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.comment_branch = Branch.objects.get(id=self.kwargs.get('branch_id'))
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('booking:branch-detail', kwargs={'branch_id': self.kwargs.get('branch_id')})
+
 
 class SearchView(ListView):
     model = Branch
@@ -81,15 +97,12 @@ class BookingDetailView(DetailView):
 
 # 믹스인 로직이 뷰로직보다 먼저기 때문에 믹스인을 왼쪽 파라미터로
 # 이메일 인증 추가하려면 LoginRequiredMixin 뒤에 UserPassesTestMixin 추가 
-class BookingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class BookingCreateView(LoginAndVerificationRequiredMixin, CreateView):
     model = Booking
     form_class = BookingForm
     template_name = "booking/booking_form.html"
     pk_url_kwarg = "branch_id"
     context_object_name = 'branch_id'
-
-    redirect_unauthenticated_users = True
-    raise_exception = confirmation_required_redirect
 
     def form_valid(self, form):  # 메소드 오버라이팅
         # 현재 로그인된 유저 정보를 폼에 넣기
@@ -104,25 +117,13 @@ class BookingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         user = self.request.user
         return reverse("booking:profile", args=[user.id])
 
-    # 이메일 인증
-    def test_func(self, user):
-        return EmailAddress.objects.filter(user=user, verified=True).exists()
-
 
 # 본인이 작성한 booking만 삭제가능함
-class BookingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class BookingDeleteView(LoginAndOwnershipRequiredMixin, DeleteView):
     model = Booking
     template_name = "booking/booking_confirm_delete.html"
     pk_url_kwarg = "booking_id"
 
-    # 본인이 한 예약이 아니면 403 forbidden error 발생
-    raise_exception = True
-
     def get_success_url(self):
         user = self.request.user
         return reverse("booking:profile", args=[user.id])
-
-    # 본인이 한 예약인지 확인
-    def test_func(self, user):
-        booking = self.get_object()
-        return booking.booking_client == user

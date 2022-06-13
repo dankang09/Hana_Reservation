@@ -15,7 +15,10 @@ class Branch(models.Model):
     branch_address = models.TextField()
     branch_image = models.ImageField(upload_to="branch_pics", blank=True)
     branch_link = models.URLField(validators=[validate_branch_link], blank=True)
-    likes = GenericRelation('Like')
+    # related_query_name은 필터조건에서만 유효, 직접 접근은 불가능
+    # ex) Like.objects.filter(comment=comment) OK
+    # ex) like.comment No!
+    likes = GenericRelation('Like', related_query_name='branch')
 
     def __str__(self):
         return self.branch_name + '(' + str(self.branch_num) + ')'
@@ -69,7 +72,7 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     #역관계, branch.comments 로 접근 가능
     comment_branch = models.ForeignKey(Branch, on_delete=models.CASCADE, related_name='comments')
-    likes = GenericRelation('Like')
+    likes = GenericRelation('Like', related_query_name='comment')
 
     def __str__(self):
         return self.content[:30]
