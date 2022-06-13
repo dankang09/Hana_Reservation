@@ -16,7 +16,6 @@ class LoginAndVerificationRequiredMixin(LoginRequiredMixin, UserPassesTestMixin)
 
 # 로그인 + 오브젝트 소유 필요(예약 삭제)
 class LoginAndOwnershipRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
-
     # 본인이 한 예약이 아니면 403 forbidden error 발생
     raise_exception = True
 
@@ -27,3 +26,11 @@ class LoginAndOwnershipRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
 
 
 # 로그인 + 오브젝트 소유 필요(댓글 수정, 댓글 삭제)
+class LoginAndOwnershipRequiredMixin2(LoginRequiredMixin, UserPassesTestMixin):
+    # 본인이 한 예약이 아니면 403 forbidden error 발생
+    raise_exception = True
+
+    # 본인이 한 예약인지 확인
+    def test_func(self, user):
+        obj = self.get_object()
+        return obj.author == user

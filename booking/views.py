@@ -1,7 +1,7 @@
 from shutil import unregister_unpack_format
 from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic import ListView, DetailView, CreateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 
 from braces.views import LoginRequiredMixin
 
@@ -13,7 +13,7 @@ from booking.forms import BookingForm, CommentForm
 from login.models import User
 
 # 리팩터링된 접근제어
-from .mixins import LoginAndVerificationRequiredMixin, LoginAndOwnershipRequiredMixin
+from .mixins import LoginAndVerificationRequiredMixin, LoginAndOwnershipRequiredMixin, LoginAndOwnershipRequiredMixin2
 
 # Create your views here.
 
@@ -66,6 +66,25 @@ class CommentCreateView(LoginAndVerificationRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse('booking:branch-detail', kwargs={'branch_id': self.kwargs.get('branch_id')})
+
+
+class CommentUpdateView(LoginAndOwnershipRequiredMixin2, UpdateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'booking/comment_update_form.html'
+    pk_url_kwarg = 'comment_id'
+
+    def get_success_url(self):
+        return reverse('booking:branch-detail', kwargs={'branch_id': self.object.comment_branch.id})
+
+
+class CommentDeleteView(LoginAndOwnershipRequiredMixin2, DeleteView):
+    model = Comment
+    template_name = 'booking/comment_confirm_delete.html'
+    pk_url_kwarg = 'comment_id'
+
+    def get_success_url(self):
+        return reverse('booking:branch-detail', kwargs={'branch_id': self.object.comment_branch.id})
 
 
 class SearchView(ListView):
