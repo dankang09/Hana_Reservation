@@ -4,7 +4,7 @@ from login.models import User
 
 # 제네릭 관계 구현(좋아요기능)
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 
 # Create your models here.
 
@@ -15,6 +15,7 @@ class Branch(models.Model):
     branch_address = models.TextField()
     branch_image = models.ImageField(upload_to="branch_pics", blank=True)
     branch_link = models.URLField(validators=[validate_branch_link], blank=True)
+    likes = GenericRelation('Like')
 
     def __str__(self):
         return self.branch_name + '(' + str(self.branch_num) + ')'
@@ -51,18 +52,24 @@ class Booking(models.Model):
     booking_times = models.IntegerField(choices=TIME_CHOICES, default=None)
     booking_task = models.IntegerField(choices=TASK_CHOICES, default=None)
     booking_etc = models.TextField()
-
     booking_dt_created = models.DateTimeField(auto_now_add=True)
-    booking_client = models.ForeignKey(User, on_delete=models.CASCADE)
-    booking_branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+
+    #역관계, user.bookings 로 접근 가능
+    booking_client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bookings')
+    #역관계, branch.bookings 로 접근 가능
+    booking_branch = models.ForeignKey(Branch, on_delete=models.CASCADE, related_name='bookings')
     
 
 class Comment(models.Model):
     content = models.TextField(max_length=200, blank=False)
     dt_created = models.DateTimeField(auto_now_add=True)
     dt_updated = models.DateTimeField(auto_now=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    comment_branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    
+    #역관계, user.comments 로 접근 가능
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    #역관계, branch.comments 로 접근 가능
+    comment_branch = models.ForeignKey(Branch, on_delete=models.CASCADE, related_name='comments')
+    likes = GenericRelation('Like')
 
     def __str__(self):
         return self.content[:30]
@@ -73,9 +80,14 @@ class Comment(models.Model):
 
 class Like(models.Model):
     dt_created = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+
+    #content_type은 직접 접근할 일이 없어서 역관계 설정 안함
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
+    
+    #기본적으로 GenericForeignKey는 on_delete 옵션의 CASCADE가 적용되지 않음
+    #Branch와 Comment 모델에서 Likes 필드(GenericRelation)을 통해 CASCADE와 동일한 효과 발생 
     liked_obejct = GenericForeignKey()
 
     def __str__(self):
