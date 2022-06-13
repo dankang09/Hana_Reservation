@@ -29,7 +29,7 @@
         {% endfor %}
       </div>
       <div class="nickname">
-        {{ form.phone|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:휴대폰번호" }}
+        {{ form.phone|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:휴대폰번호(-를 빼고 입력해주세요.)" }}
         {% for error in form.phone.errors %}
           <div class="error-message">{{ error }}</div>
         {% endfor %}
