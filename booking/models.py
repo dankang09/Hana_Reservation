@@ -68,6 +68,10 @@ class Comment(models.Model):
     dt_created = models.DateTimeField(auto_now_add=True)
     dt_updated = models.DateTimeField(auto_now=True)
     
+    # CASCADE: Branch가 삭제되면 User도 삭제
+    # PROTECT: Branch를 즐겨찾기한 User가 하나라도 있으면 Branch를 삭제하지 못하게함
+    # SET_NULL: Branch를 삭제하면 그 지점을 즐겨찾기한 User의 following이 Null이 됨
+
     #역관계, user.comments 로 접근 가능
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     #역관계, branch.comments 로 접근 가능
