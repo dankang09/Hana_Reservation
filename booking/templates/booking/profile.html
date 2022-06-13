@@ -15,6 +15,23 @@
       <div
         class="cp-avatar large profile-pic" style="background-image: url('{{ profile_user.profile_pic.url }}')"></div>
       <div class="info">
+        
+        <div class="follow-section">
+          {% comment %} <a href="#">
+            팔로워 [A: 팔로워 수]
+          </a> {% endcomment %}
+          <span class="vert-divider">|</span>
+          <a href="#">
+            자주가는 지점 {{ profile_user.following.count }}
+          </a>
+        </div>
+        {% comment %} <form class="follow-button" action="#" method="post">
+          {% csrf_token %}
+          <button class="cp-button small" type="submit">
+            팔로우
+          </button>
+        </form> {% endcomment %}
+
         <h1 class="username"> {{ profile_user.name }}</h1>
         {% if profile_user == user %}
         <a class="edit" href="{% url 'login:profile-update' %}">
