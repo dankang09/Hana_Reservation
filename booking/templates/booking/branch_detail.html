@@ -1,6 +1,7 @@
 {% extends '../login_base/base_with_navbar.html' %}
 
 {% load static %}
+{% load widget_tweaks %}
 
 {% block title %}{{ branch.branch_name }}지점 | Hana Booking{% endblock title %}
 
@@ -38,6 +39,68 @@
             <span>위치보기</span>
         </a>
     </div>
+
+    <div class="like-comment-block">
+        <div class="like-comment-header">
+          <button class="like-button">
+            <img width="21px" src="{% static 'login/icons/ic-heart.svg' %}" alt="like icon">
+            <span> 좋아요 {{ branch.likes.count }}</span>
+          </button>
+          <div class="comment-info">
+            <img src="{% static 'login/icons/ic-comment.svg' %}" alt="comment icon">
+            <span> 댓글 {{ branch.comments.count }}</span>
+          </div>
+        </div>
+
+        {% comment %} 댓글 작성 폼 {% endcomment %}
+        <form class="comment-create-form" action="{% url 'booking:comment-create' branch.id %}" method="post">
+          {% csrf_token %}
+          {% if user.is_authenticated %}
+            {{ form.content|attr:"placeholder:댓글 내용을 입력해주세요."|add_class:"cp-input" }}
+            <button class="cp-button small" type="submit">등록</button>
+          {% else %}
+            <a href="{% url 'account_login' %}?next={% url 'booking:branch-detail' branch.id %}">
+              {{ form.content|attr:"placeholder:댓글을 작성하려면 로그인이 필요합니다."|add_class:"cp-input"|attr:"disabled" }}
+            </a>
+            <button class="cp-button small secondary" type="submit" disabled=>등록</button>
+          {% endif %}
+        </form>
+
+        <div class="comment-list">
+          {% for comment in branch.comments.all %}
+            <div class="comment">
+              <div class="comment-header">
+                {% comment %} <a href="{% url 'profile' comment.author.id %}"> {% endcomment %}
+                  <div class="author">
+                    <div class="cp-avatar" style="background-image: url('{{ comment.author.profile_pic.url }}')"></div>
+                    <span>{{ comment.author.name }}</span>
+                  </div>
+                </a>
+                {% if user == comment.author %}
+                  <div class="buttons">
+                    <a href="#">삭제</a>
+                    <span> | </span>
+                    <a href="#">수정</a>
+                  </div>
+                {% endif %}
+              </div>
+              <div class="comment-content">
+                {{ comment.content|linebreaksbr }}
+              </div>
+              <div class="comment-footer">
+                <div class="comment-date">
+                  {{ comment.dt_created|date:"Y년 n월 j일" }}
+                </div>
+                <button class="like-button">
+                  <img width="16px" src="{% static 'login/icons/ic-heart.svg' %}" alt="like icon">
+                  <span> 좋아요 {{ comment.likes.count }}</span>
+                </button>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      
 
     <div class="footer">
         <a class="back-link" href="{% url 'booking:branch-list' %}">&lt; 목록으로</a>
