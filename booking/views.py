@@ -1,12 +1,13 @@
 from shutil import unregister_unpack_format
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, View
+from django.contrib.contenttypes.models import ContentType
 
 from braces.views import LoginRequiredMixin
 
 from django.db.models import Q
-from booking.models import Branch, Booking, Comment
+from booking.models import Branch, Booking, Comment, Like
 from booking.forms import BookingForm, CommentForm
 
 # 프로필 구현
@@ -51,6 +52,15 @@ class BranchDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = CommentForm()
+        context['branch_ctype_id'] = ContentType.objects.get(model='branch').id
+        context['comment_ctype_id'] = ContentType.objects.get(model='comment').id
+
+        # 현재 유저가 branch, comment를 like하는지 판단하기
+        user = self.request.user
+        if user.is_authenticated:
+            branch = self.object
+            context['likes_branch'] = Like.objects.filter(user=user, branch=branch).exists()
+            context['liked_comments'] = Comment.objects.filter(comment_branch=branch).filter(likes__user=user)
         return context
 
 
@@ -85,6 +95,24 @@ class CommentDeleteView(LoginAndOwnershipRequiredMixin2, DeleteView):
 
     def get_success_url(self):
         return reverse('booking:branch-detail', kwargs={'branch_id': self.object.comment_branch.id})
+
+    
+class ProcessLikeView(LoginAndVerificationRequiredMixin, View):
+    http_method_names = ['post']  # POST method만 처리해주는 뷰이기 때문
+
+    def post(self, request, *args, **kwargs):
+        # 유저가 오브젝트에 좋아요를 눌렀는지 판단하기
+        # 밑의 조건을 충족하면 get -> like에 저장
+        # 조건을 충족하지 못하면 created가 false -> like에 저장 -> 다시 created가 true
+        like, created = Like.objects.get_or_create(
+            user=self.request.user,  # 현재유저
+            content_type_id=self.kwargs.get('content_type_id'), # url로 넘어온 content_type_id 가져오기
+            object_id=self.kwargs.get('object_id'),  # url로 넘어온 object_id 가져오기
+        )
+        if not created:
+            like.delete()
+        
+        return redirect(self.request.META['HTTP_REFERER'])
 
 
 class SearchView(ListView):
