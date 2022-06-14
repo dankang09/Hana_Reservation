@@ -35,4 +35,9 @@ urlpatterns = [
         views.ProcessLikeView.as_view(),
         name='process-like'
     ),
+
+    # follow
+    path('branch/<int:branch_id>/follow/',
+        views.ProcessFollowView.as_view(),
+        name='process-follow'),
 ]

@@ -50,17 +50,21 @@ class BranchDetailView(DetailView):
     pk_url_kwarg = "branch_id"
 
     def get_context_data(self, **kwargs):
+        branch_id = self.kwargs.get('branch_id')
+        user = self.request.user
+
         context = super().get_context_data(**kwargs)
         context['form'] = CommentForm()
         context['branch_ctype_id'] = ContentType.objects.get(model='branch').id
         context['comment_ctype_id'] = ContentType.objects.get(model='comment').id
 
         # 현재 유저가 branch, comment를 like하는지 판단하기
-        user = self.request.user
         if user.is_authenticated:
             branch = self.object
             context['likes_branch'] = Like.objects.filter(user=user, branch=branch).exists()
             context['liked_comments'] = Comment.objects.filter(comment_branch=branch).filter(likes__user=user)
+            # branch를 follow하는지 판단하기
+            context['is_following'] = user.following.filter(id=branch_id).exists()
         return context
 
 
@@ -113,6 +117,19 @@ class ProcessLikeView(LoginAndVerificationRequiredMixin, View):
             like.delete()
         
         return redirect(self.request.META['HTTP_REFERER'])
+
+
+class ProcessFollowView(LoginAndVerificationRequiredMixin, View):
+    http_method_names = ['post']  # POST method만 처리해주는 뷰이기 때문
+
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        branch_id = self.kwargs.get('branch_id')
+        if user.following.filter(id=branch_id).exists():
+            user.following.remove(branch_id)
+        else:
+            user.following.add(branch_id)
+        return redirect('booking:branch-detail', branch_id = branch_id)
 
 
 class SearchView(ListView):
