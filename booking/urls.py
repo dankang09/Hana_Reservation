@@ -39,5 +39,15 @@ urlpatterns = [
     # follow
     path('branch/<int:branch_id>/follow/',
         views.ProcessFollowView.as_view(),
-        name='process-follow'),
+        name='process-follow'
+    ),
+    path('users/<int:user_id>//following/', 
+        views.FollowingListView.as_view(), 
+        name='following-list'
+    ),
+    path('branch/<int:branch_id>/followers/', 
+        views.FollowerListView.as_view(), 
+        name='follower-list'
+    ),
+
 ]

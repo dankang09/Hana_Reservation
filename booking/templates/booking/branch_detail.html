@@ -16,9 +16,9 @@
         <h1 class="title"></h1>
 
         <div class="follow-section">
-          <span href="#">
+          <a href="{% url 'booking:follower-list' branch.id %}">
             팔로워 {{ branch.followers.count }}
-          </span>
+          </a>
           {% comment %} <span class="vert-divider">|</span> {% endcomment %}
           {% comment %} <a href="#">
             자주가는 지점 {{ profile_user.following.count }}
