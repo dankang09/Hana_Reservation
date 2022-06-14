@@ -38,7 +38,7 @@
           팔로워 [A: 팔로워 수]
         </a>
         <span class="vert-divider">|</span> {% endcomment %}
-        <a href="#">
+        <a href="{% url 'booking:following-list' profile_user.id %}">
           자주가는 지점 {{ profile_user.following.count }}
         </a>
       </div>

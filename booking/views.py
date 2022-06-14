@@ -1,5 +1,5 @@
 from shutil import unregister_unpack_format
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, View
 from django.contrib.contenttypes.models import ContentType
@@ -130,6 +130,44 @@ class ProcessFollowView(LoginAndVerificationRequiredMixin, View):
         else:
             user.following.add(branch_id)
         return redirect('booking:branch-detail', branch_id = branch_id)
+
+
+# 유저가 필로잉하는 브랜치들 보여주기
+class FollowingListView(ListView):
+    model = Branch
+    template_name = 'booking/following_list.html'
+    context_object_name = 'following'
+    paginate_by = 10
+
+    #유저가 팔로우하는 브랜치들 쿼리셋
+    def get_queryset(self):
+        user = get_object_or_404(User, pk=self.kwargs.get('user_id'))
+        return user.following.all()
+
+    # '프로필로 돌아가기' url태그를 위해 템플릿으로 전달
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['profile_user_id'] = self.kwargs.get('user_id')
+        return context
+
+
+# 브랜치를 팔로잉하는 유저들 보여주기
+class FollowerListView(ListView):
+    model = User
+    template_name = 'booking/follower_list.html'
+    context_object_name = 'followers'
+    paginate_by = 10
+
+    # 브랜치를 팔로우하는 유저들 쿼리셋
+    def get_queryset(self):
+        branch = get_object_or_404(Branch, pk=self.kwargs.get('branch_id'))
+        return branch.followers.all()
+
+    # '지점 상세보기로 돌아가기' url태그를 위해 템플릿으로 전달
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['branch_id'] = self.kwargs.get('branch_id')
+        return context
 
 
 class SearchView(ListView):
