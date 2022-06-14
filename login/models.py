@@ -27,7 +27,7 @@ class User(AbstractUser):
     
     intro = models.CharField(max_length=60, blank=True)
 
-    following = models.ManyToManyField('booking.Branch')
+    following = models.ManyToManyField('booking.Branch', blank=True, related_name='followers')
 
     def __str__(self):
         return self.email

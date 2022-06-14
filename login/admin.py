@@ -8,5 +8,5 @@ admin.site.register(User, UserAdmin)
 
 # 관리자 페이지에 커스텀필드 추가
 UserAdmin.fieldsets += (
-    ("Custom fields", {"fields": ("name", "phone", "profile_pic", "intro")}),
+    ("Custom fields", {"fields": ("name", "phone", "profile_pic", "intro", "following")}),
 )

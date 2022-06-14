@@ -15,6 +15,30 @@
         
         <h1 class="title"></h1>
 
+        <div class="follow-section">
+          <span href="#">
+            팔로워 {{ branch.followers.count }}
+          </span>
+          {% comment %} <span class="vert-divider">|</span> {% endcomment %}
+          {% comment %} <a href="#">
+            자주가는 지점 {{ profile_user.following.count }}
+          </a> {% endcomment %}
+          {% if user.is_authenticated and user.following != branch %}
+            <form class="follow-button" action="{% url "booking:process-follow" branch.id %}" method="post">
+              {% csrf_token %}
+              {% if is_following %}
+                <button class="cp-button small secondary" type="submit">
+                  Unfollow
+                </button>
+              {% else %}
+                <button class="cp-button small" type="submit">
+                  Follow
+                </button>
+              {% endif %}
+            </form>
+          {% endif %}
+      </div>
+
         {% comment %} <div class="author">
             <a class="review-author" href="{% url 'login:profile-update' %}">
                 <div class="cp-avatar" style="background-image: url('{{ user.profile_pic.url }}')"></div>
