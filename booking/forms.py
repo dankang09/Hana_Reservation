@@ -12,6 +12,9 @@ class BookingForm(forms.ModelForm):
             "booking_times",
             "booking_task",
             "booking_etc",
+            "booking_image1",
+            "booking_image2",
+            "booking_image3",
         ]
         widgets = {
             # "booking_dates": forms.SelectDateWidget(years=["2022"],),
