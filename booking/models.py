@@ -56,6 +56,9 @@ class Booking(models.Model):
     booking_task = models.IntegerField(choices=TASK_CHOICES, default=None)
     booking_etc = models.TextField()
     booking_dt_created = models.DateTimeField(auto_now_add=True)
+    booking_image1 = models.ImageField(upload_to="booking_pics", blank=True)
+    booking_image2 = models.ImageField(upload_to="booking_pics", blank=True)
+    booking_image3 = models.ImageField(upload_to="booking_pics", blank=True)
 
     #역관계, user.bookings 로 접근 가능
     booking_client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bookings')

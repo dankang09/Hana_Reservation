@@ -47,11 +47,11 @@ urlpatterns = [
         ), # allauth에 있는 password/change/ url을 오버라이딩
 
     path("naver/login/booking",
-        TemplateView.as_view(template_name = "booking/booking.html"),
+        TemplateView.as_view(template_name = "booking/profile.html"),
         name="naver_login_done"
         ),  # 네이버 로그인 성공시
     path("kakao/login/booking",
-        TemplateView.as_view(template_name = "booking/booking.html"),
+        TemplateView.as_view(template_name = "booking/profile.html"),
         name="kakao_login_done"
         ),  # 카카오 로그인 성공시
     path('', include('allauth.urls')),

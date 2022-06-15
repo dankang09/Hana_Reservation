@@ -16,6 +16,7 @@
 
     {% comment %} {% include 'components/calender.html' with branches=branches %} {% endcomment %}
 
+    <h2> 예약정보 </h2>
     <div class="title">
       {{ form.booking_dates|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:날짜" }}
       {% for error in form.booking_dates.errors %}
@@ -77,28 +78,28 @@
       {% endfor %}
     </div>
     
-
-    {% comment %} <div class="file">
+    <h2> 빠른 서류제출 </h2>
+    <div class="file">
       <div class="file-content">
         <div>
-          <input type="file" name="image1" accept="image/*" id="id_image1">
+          {{ form.booking_image1 }}
         </div>
       </div>
     </div>
     <div class="file">
       <div class="file-content">
         <div>
-          <input type="file" name="image2" accept="image/*" id="id_image2">
+          {{ form.booking_image2 }}
         </div>
       </div>
     </div>
     <div class="file">
       <div class="file-content">
         <div>
-          <input type="file" name="image3" accept="image/*" id="id_image3">
+          {{ form.booking_image3 }}
         </div>
       </div>
-    </div>  {% endcomment %}
+    </div>
 
 
     <div class="buttons">
