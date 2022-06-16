@@ -4,7 +4,9 @@ from . import views
 app_name = 'booking'
 
 urlpatterns = [
+    # profile, branch-update
     path("users/<int:user_id>/", views.ProfileView.as_view(), name="profile"),
+    
 
     # booking
     path('<int:booking_id>/', views.BookingDetailView.as_view(), name='booking-detail'),
@@ -15,6 +17,7 @@ urlpatterns = [
     path('branch/search/', views.SearchView.as_view(), name='search'),
     path('branch/<int:branch_id>/', views.BranchDetailView.as_view(), name='branch-detail'),
     path('branch/<int:branch_id>/create/', views.BookingCreateView.as_view(), name="booking-create"),
+    path("branch/<int:branch_id>/edit-branch/", views.BranchUpdateView.as_view(), name="branch-update"),
     
     # comment
     path('branch/<int:branch_id>/comments/create/',

@@ -1,0 +1,74 @@
+{% extends "../login_base/base_with_navbar.html" %}
+
+{% load widget_tweaks %}
+
+{% block title %}우리지점 수정 | Hana Booking{% endblock title %}
+
+{% block content %}
+<main class="profile-form">
+  <p class="welcome-message">
+    우리 지점 프로필 업데이트 (기능 점검 중)
+  </p>
+  <form method="post"
+      enctype="multipart/form-data"
+      autocomplete="off"
+      action="{% url 'booking:branch-update' branch.id %}">
+    {% csrf_token %}
+    {% comment %} <div class="profile">
+      <div class="profile-pic cp-avatar large" style="background-image: url('{{ user.profile_pic.url }}')"></div>
+      <div class="file">
+        {{ form.profile_pic }}
+      </div>
+    </div> {% endcomment %}
+
+    <h3> 지점 이름 </h3>
+    <div class="nickname">
+      {{ form.branch_name|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:지점 이름" }}
+      {% for error in form.branch_name.errors %}
+        <div class="error-message">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <h3> 지점 전화번호 </h3>
+    <div class="nickname">
+      {{ form.branch_tel|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:지점 전화번호" }}
+      {% for error in form.branch_tel.errors %}
+        <div class="error-message">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <h3> 지점 주소 </h3>
+    <div class="content">
+      {{ form.branch_address|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:지점 주소" }}
+      {% for error in form.branch_address.errors %}
+        <div class="error-message">{{ error }}</div>
+      {% endfor %}
+    </div>
+
+    <h3> 지점 이미지(약도 등) </h3>
+    <div class="content">
+        {% if branch_image %}
+          <img src="{{ branch_image.url }}"
+        {% endif %}
+        {{ form.branch_image|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:지점 이미지(약도 등)" }}
+        {% for error in form.branch_image.errors %}
+            <div class="error-message">{{ error }}</div>
+        {% endfor %}
+    </div>
+    
+    <h3> 지점 지도 링크 </h3>
+    <div class="content">
+        {{ form.branch_link|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:지점 지도 링크" }}
+        {% for error in form.branch_link.errors %}
+            <div class="error-message">{{ error }}</div>
+        {% endfor %}
+    </div>
+
+    <div class="buttons">
+      <a class="cp-button secondary cancel" href="{% url 'booking:profile' user.id %}">취소</a>
+      <button class="cp-button" 
+              type="submit">완료</button>
+    </div>
+  </form>
+</main>
+{% endblock content %}

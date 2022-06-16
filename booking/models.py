@@ -1,6 +1,6 @@
 from django.db import models
 from .validators import validate_branch_link
-from login.models import User
+from login.models import User, Employee
 
 # 제네릭 관계 구현(좋아요기능)
 from django.contrib.contenttypes.models import ContentType
@@ -64,6 +64,8 @@ class Booking(models.Model):
     booking_client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bookings')
     #역관계, branch.bookings 로 접근 가능
     booking_branch = models.ForeignKey(Branch, on_delete=models.CASCADE, related_name='bookings')
+    #역관계 어떻게 접근?
+    # booking_employee = models.ForeignKey(Employee, on_delete=models.SET_NULL)
     
 
 class Comment(models.Model):
@@ -79,6 +81,8 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     #역관계, branch.comments 로 접근 가능
     comment_branch = models.ForeignKey(Branch, on_delete=models.CASCADE, related_name='comments')
+    #역관계, booking.comments 로 접근 가능
+    comment_booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='comments')
     likes = GenericRelation('Like', related_query_name='comment')
 
     def __str__(self):
