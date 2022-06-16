@@ -48,6 +48,13 @@
         <div class="error-message"> {{ error }} </div>
       {% endfor %}
     </div>
+{% comment %} 
+    <div class="title">
+      {{ form.|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:업무" }}
+      {% for error in form.booking_employee.errors %}
+        <div class="error-message"> {{ error }} </div>
+      {% endfor %}
+    </div> {% endcomment %}
 
     {% comment %} <div class="rating">
       <div class="cp-stars">
@@ -72,7 +79,7 @@
     </div> {% endcomment %}
 
     <div class="content">
-      {{ form.booking_etc|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:기타 요청사항" }}
+      {{ form.booking_etc|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:기타 요청사항 및 문의사항" }}
       {% for error in form.booking_etc.errors %}
         <div class="error-message"> {{ error }} </div>
       {% endfor %}

@@ -9,6 +9,103 @@
 {% block title %}{{ profile_user.name }} | Hana Booking{% endblock title %} 
 
 {% block content %}
+{% comment %} 직원 화면 {% endcomment %}
+{% if profile_user.employee %}
+<main class="site-body">
+  <div class="profile-header">
+    <div class="content max-content-width">
+      <div
+        class="cp-avatar large profile-pic" style="background-image: url('{{ profile_user.profile_pic.url }}')"></div>
+      <div class="info">
+        <h1 class="username"> {{ profile_user.employee.employee_branch.branch_name }} 지점의 {{ profile_user.name }} 직원님! 환영합니다.</h1>
+        {% if profile_user == user %}
+        <a class="edit" href="{% url 'login:profile-update' %}">
+          <img class="cp-icon small" src="{% static 'login/icons/ic-pen.svg' %}" alt="Pen Icon">
+          프로필 수정
+        </a>
+        &#183;
+        <a class="edit" href="{% url 'account_change_password' %}">
+          비밀번호 변경
+        </a>
+        &#183;
+        <a class="edit" href="{% url 'booking:branch-update' profile_user.employee.employee_branch.id %}">
+          지점 프로필 수정
+        </a>
+        {% endif %}
+        {% if profile_user.intro %}
+        <div>
+          <p class="cp-chip intro">{{ profile_user.intro }}</p>
+        </div>
+        {% endif %}
+      </div>
+
+      <div class="follow-section">
+        <a href="{% url 'booking:follower-list' profile_user.employee.employee_branch.id %}">
+          우리 지점 팔로워 {{ profile_user.employee.employee_branch.followers.count }}
+        </a>
+        {% comment %} <span class="vert-divider">|</span>
+        <a href="{% url 'booking:following-list' profile_user.id %}">
+          자주가는 지점 {{ profile_user.following.count }}
+        </a> {% endcomment %}
+      </div>
+      {% comment %} <form class="follow-button" action="#" method="post">
+        {% csrf_token %}
+        <button class="cp-button small" type="submit">
+          팔로우
+        </button>
+      </form> {% endcomment %}
+
+    </div>
+  </div>
+
+  <div class="content-list max-content-width">
+    <div class="header">
+      <h2>{{ profile_user.employee.employee_branch }}지점의 예약 현황</h2>
+      <p class='help'> 우리 지점의 예약은 가장 최근 10건 까지만 보여요 :)</p>
+      <a class="cp-ic-button after circle morereview" href="{% url 'booking:branch-list' %}">
+        지점 전체보기
+      </a>
+    </div>
+
+    <div class="contents">
+      {% for booking in branch_bookings %}
+      <a href="{% url 'booking:booking-detail' booking.id %}">
+        <div class="cp-card content">
+          <div
+            class="thumb"
+            style="background-image: url('{{ booking.image1.url }}');"
+          ></div>
+          <div class="body">
+            <span class="cp-chip green">{{ booking.booking_branch.branch_name }} 지점</span>
+            <h2 class="title">{{ booking.booking_branch.branch_address }}</h2>
+            <date class="date">{{ booking.booking_dates|date:"Y년 n월 j일" }}</date>
+            <div class="metadata">
+              <div class="review-rating">
+                <span class="cp-stars">
+                  {% comment %} {% for i in ""|ljust:review.rating %}★{% endfor %} {% endcomment %}
+                </span>
+              </div>
+              <div class="review-author">
+                <div
+                  class="cp-avatar"
+                  style="background-image: url('{{ booking.booking_client.profile_pic.url }}')">
+                </div>
+                <span>{{ booking.booking_client.name }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+      {% empty %}
+      <p class="empty">현재 우리 지점에 예약이 없어요 :(</p>
+      {% endfor %}
+      
+    </div>
+  </div>
+</main>
+
+{% comment %} 손님 화면 {% endcomment %}
+{% else %}
 <main class="site-body">
   <div class="profile-header">
     <div class="content max-content-width">
@@ -73,6 +170,37 @@
             <span class="cp-chip green">{{ booking.booking_branch.branch_name }} 지점</span>
             <h2 class="title">{{ booking.booking_branch.branch_address }}</h2>
             <date class="date">{{ booking.booking_dates|date:"Y년 n월 j일" }}</date>
+            {% comment %} asd<p>asd
+              {% if booking.booking_times == 1 %}
+                오전 9시 정각
+              {% elif booking.booking_times == 2 %}
+                오전 9시 30분
+              {% elif booking.booking_times == 3 %}
+                오전 10시 정각
+              {% elif booking.booking_times == 4 %}
+                오전 10시 30분
+              {% elif booking.booking_times == 5 %}
+                오전 11시 정각
+              {% elif booking.booking_times == 6 %}
+                오전 11시 30분
+              {% elif booking.booking_times == 7 %}
+                오후 12시 정각
+              {% elif booking.booking_times == 8 %}
+                오후 12시 30분
+              {% elif booking.booking_times == 9 %}
+                오후 1시 정각
+              {% elif booking.booking_times == 10 %}
+                오후 1시 30분
+              {% elif booking.booking_times == 11 %}
+                오후 2시 정각
+              {% elif booking.booking_times == 12 %}
+                오후 2시 30분
+              {% elif booking.booking_times == 13 %}
+                오후 3시 정각
+              {% else %}
+                오후 3시 30분
+              {% endif %}
+            </p> {% endcomment %}
             <div class="metadata">
               <div class="review-rating">
                 <span class="cp-stars">
@@ -97,4 +225,5 @@
     </div>
   </div>
 </main>
+{% endif %}
 {% endblock content %}

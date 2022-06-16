@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from .validators import validate_no_special_characters
 # import booking.models
 
+
 # Create your models here.
 
 class User(AbstractUser):
@@ -29,5 +30,14 @@ class User(AbstractUser):
 
     following = models.ManyToManyField('booking.Branch', blank=True, related_name='followers')
 
+    employee = models.ForeignKey('login.Employee', null=True, blank=True, on_delete='CASCADE', related_name='users')
+
     def __str__(self):
         return self.email
+
+class Employee(models.Model):
+    num = models.CharField(max_length=7, unique=True)
+    employee_branch = models.ForeignKey('booking.Branch', related_name='employees', on_delete="SET_NULL")
+
+    def __str__(self):
+        return self.num

@@ -1,7 +1,7 @@
 # socket 호출하면 에러남.. 이유 알 수 없음. socket이 무슨 역할인지도 알 수 없음
 # from socket import fromshare
 from django import forms
-from booking.models import Booking, Comment
+from booking.models import Booking, Comment, Branch
 import datetime
 
 class BookingForm(forms.ModelForm):
@@ -15,6 +15,7 @@ class BookingForm(forms.ModelForm):
             "booking_image1",
             "booking_image2",
             "booking_image3",
+            # "booking_employee",
         ]
         widgets = {
             # "booking_dates": forms.SelectDateWidget(years=["2022"],),
@@ -33,3 +34,19 @@ class CommentForm(forms.ModelForm):
         widgets = {
             'content': forms.Textarea,
         }
+
+
+class BranchForm(forms.ModelForm):
+    class Meta:
+        model = Branch
+        fields = [
+            "branch_name",
+            "branch_num",
+            "branch_tel",
+            "branch_address",
+            "branch_image",
+            "branch_link",
+        ]
+        # widgets = {
+        #     "intro": forms.Textarea
+        # }
