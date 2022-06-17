@@ -14,8 +14,8 @@ from django.contrib.contenttypes.models import ContentType
 from braces.views import LoginRequiredMixin
 
 from django.db.models import Q
-from booking.models import Branch, Booking, Comment, Like
-from booking.forms import BookingForm, CommentForm, BranchForm
+from booking.models import Branch, Booking, Comment, Like, BookingComment
+from booking.forms import BookingForm, CommentForm, BranchForm, BookingCommentForm
 
 # 프로필 구현
 from login.models import User
@@ -234,6 +234,22 @@ class BookingDetailView(DetailView):
     template_name = "booking/booking_detail.html"
     pk_url_kwarg = "booking_id"
 
+    def get_context_data(self, **kwargs):
+        booking_id = self.kwargs.get('booking_id')
+        user = self.request.user
+
+        context = super().get_context_data(**kwargs)
+        context['form'] = BookingCommentForm()
+        context['booking_ctype_id'] = ContentType.objects.get(model='booking').id
+        context['booking_comment_ctype_id'] = ContentType.objects.get(model='bookingcomment').id
+
+        # 현재 유저가 booking, comment를 like하는지 판단하기
+        if user.is_authenticated:
+            booking = self.object
+            context['likes_booking'] = Like.objects.filter(user=user, booking=booking).exists()
+            context['liked_comments'] = BookingComment.objects.filter(comment_booking=booking).filter(likes__user=user)
+        return context
+
 
 # 믹스인 로직이 뷰로직보다 먼저기 때문에 믹스인을 왼쪽 파라미터로
 # 이메일 인증 추가하려면 LoginRequiredMixin 뒤에 UserPassesTestMixin 추가 
@@ -267,3 +283,36 @@ class BookingDeleteView(LoginAndOwnershipRequiredMixin, DeleteView):
     def get_success_url(self):
         user = self.request.user
         return reverse("booking:profile", args=[user.id])
+
+
+class BookingCommentCreateView(LoginAndVerificationRequiredMixin, CreateView):
+    http_method_names = ['post']
+    model = BookingComment
+    form_class = BookingCommentForm
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.comment_booking = Booking.objects.get(id=self.kwargs.get('booking_id'))
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('booking:booking-detail', kwargs={'booking_id': self.kwargs.get('booking_id')})
+
+
+class BookingCommentUpdateView(LoginAndOwnershipRequiredMixin2, UpdateView):
+    model = BookingComment
+    form_class = BookingCommentForm
+    template_name = 'booking/booking_comment_update_form.html'
+    pk_url_kwarg = 'booking_comment_id'
+
+    def get_success_url(self):
+        return reverse('booking:booking-detail', kwargs={'booking_id': self.object.comment_booking.id})
+
+
+class BookingCommentDeleteView(LoginAndOwnershipRequiredMixin2, DeleteView):
+    model = BookingComment
+    template_name = 'booking/booking_comment_confirm_delete.html'
+    pk_url_kwarg = 'booking_comment_id'
+
+    def get_success_url(self):
+        return reverse('booking:booking-detail', kwargs={'booking_id': self.object.comment_booking.id})

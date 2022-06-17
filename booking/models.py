@@ -60,6 +60,8 @@ class Booking(models.Model):
     booking_image2 = models.ImageField(upload_to="booking_pics", blank=True)
     booking_image3 = models.ImageField(upload_to="booking_pics", blank=True)
 
+    likes = GenericRelation('Like', related_query_name='booking')
+
     #역관계, user.bookings 로 접근 가능
     booking_client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bookings')
     #역관계, branch.bookings 로 접근 가능
@@ -67,7 +69,7 @@ class Booking(models.Model):
     #역관계 어떻게 접근?
     # booking_employee = models.ForeignKey(Employee, on_delete=models.SET_NULL)
     
-
+# 지점에 달리는 댓글
 class Comment(models.Model):
     content = models.TextField(max_length=200, blank=False)
     dt_created = models.DateTimeField(auto_now_add=True)
@@ -82,8 +84,30 @@ class Comment(models.Model):
     #역관계, branch.comments 로 접근 가능
     comment_branch = models.ForeignKey(Branch, on_delete=models.CASCADE, related_name='comments')
     #역관계, booking.comments 로 접근 가능
-    comment_booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='comments')
     likes = GenericRelation('Like', related_query_name='comment')
+
+    def __str__(self):
+        return self.content[:30]
+
+    class Meta:
+        ordering = ['-dt_created']
+
+
+# 예약에 달리는 댓글
+class BookingComment(models.Model):
+    content = models.TextField(max_length=200, blank=False)
+    dt_created = models.DateTimeField(auto_now_add=True)
+    dt_updated = models.DateTimeField(auto_now=True)
+    
+    # CASCADE: Branch가 삭제되면 User도 삭제
+    # PROTECT: Branch를 즐겨찾기한 User가 하나라도 있으면 Branch를 삭제하지 못하게함
+    # SET_NULL: Branch를 삭제하면 그 지점을 즐겨찾기한 User의 following이 Null이 됨
+
+    #역관계, user.booking_comments 로 접근 가능
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='booking_comments')
+    #역관계, booking.booking_comments 로 접근 가능
+    comment_booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name='booking_comments')
+    likes = GenericRelation('Like', related_query_name='booking_comment')
 
     def __str__(self):
         return self.content[:30]
