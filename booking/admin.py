@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Branch, Booking, Comment, Like
+from .models import Branch, Booking, Comment, Like, BookingComment
 
 from django.contrib.contenttypes.admin import GenericStackedInline
 
@@ -27,10 +27,31 @@ class CommentAdmin(admin.ModelAdmin):
     )
 
 
+
+
+# Booking-Comment
+class BookingCommentInline(admin.StackedInline):
+    model = BookingComment
+
+class BookingAdmin(admin.ModelAdmin):
+    inlines = (
+        BookingCommentInline,
+        # LikeInline,
+    )
+
+# class BookingCommentAdmin(admin.ModelAdmin):
+#     inlines = (
+#         LikeInline,
+#     )
+
+
+
 admin.site.register(Branch, BranchAdmin)
-admin.site.register(Booking)
+admin.site.register(Booking, BookingAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Like)
+# admin.site.register(BookingCommentAdmin)
+
 
 
 
