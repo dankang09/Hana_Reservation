@@ -1,3 +1,7 @@
 .content-list .help {
     color: var(--content-list-sub-heading);
 }
+
+.contents .a{
+    max-height: auto;
+}

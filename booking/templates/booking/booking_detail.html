@@ -12,7 +12,44 @@
       <div class="restaurant-name">
         <span class="cp-chip green">{{ booking.booking_branch.branch_name }}지점</span>
       </div>
-      <h1 class="title"> 
+      <h1 class="title"> {{ booking.booking_dates }}
+        {% if booking.booking_times == 1 %}
+          오전 9시 정각
+        {% elif booking.booking_times == 2 %}
+          오전 9시 30분
+        {% elif booking.booking_times == 3 %}
+          오전 10시 정각
+        {% elif booking.booking_times == 4 %}
+          오전 10시 30분
+        {% elif booking.booking_times == 5 %}
+          오전 11시 정각
+        {% elif booking.booking_times == 6 %}
+          오전 11시 30분
+        {% elif booking.booking_times == 7 %}
+          오후 12시 정각
+        {% elif booking.booking_times == 8 %}
+          오후 12시 30분
+        {% elif booking.booking_times == 9 %}
+          오후 1시 정각
+        {% elif booking.booking_times == 10 %}
+          오후 1시 30분
+        {% elif booking.booking_times == 11 %}
+          오후 2시 정각
+        {% elif booking.booking_times == 12 %}
+          오후 2시 30분
+        {% elif booking.booking_times == 13 %}
+          오후 3시 정각
+        {% else %}
+          오후 3시 30분
+        {% endif %}
+      </h1>
+      <div class="author">
+        <a class="review-author" href="#">
+          <div class="cp-avatar" style="background-image: url('{{ booking.booking_client.profile_pic.url }}')"></div>
+          <span>{{ booking.booking_client.name }}</span>
+        </a>
+      </div>
+      <date class="date">
         {% if booking.booking_task == 1 %}
           개인/가계 예금(수신) 업무
         {% elif booking.booking_task == 2 %}
@@ -25,56 +62,21 @@
           기업 대출(여신) 업무
         {% else %}
           기업 외환 업무
-        {% endif %}
-      </h1>
-      <div class="author">
-        <a class="review-author" href="#">
-          <div class="cp-avatar" style="background-image: url('{{ booking.booking_client.profile_pic.url }}')"></div>
-          <span>{{ booking.booking_client.name }}</span>
-        </a>
-      </div>
-      <date class="date">
-        {{ booking.booking_dates }}</date>
-        {% if booking.booking_times == 1 %}
-            오전 9시 정각
-          {% elif booking.booking_times == 2 %}
-            오전 9시 30분
-          {% elif booking.booking_times == 3 %}
-            오전 10시 정각
-          {% elif booking.booking_times == 4 %}
-            오전 10시 30분
-          {% elif booking.booking_times == 5 %}
-            오전 11시 정각
-          {% elif booking.booking_times == 6 %}
-            오전 11시 30분
-          {% elif booking.booking_times == 7 %}
-            오후 12시 정각
-          {% elif booking.booking_times == 8 %}
-            오후 12시 30분
-          {% elif booking.booking_times == 9 %}
-            오후 1시 정각
-          {% elif booking.booking_times == 10 %}
-            오후 1시 30분
-          {% elif booking.booking_times == 11 %}
-            오후 2시 정각
-          {% elif booking.booking_times == 12 %}
-            오후 2시 30분
-          {% elif booking.booking_times == 13 %}
-            오후 3시 정각
-          {% else %}
-            오후 3시 30분
-          {% endif %}
-
+        {% endif %}</date>
+        
     </div>
 
     <div class="content">
+      <h3 class="content">주소: {{booking.booking_branch.branch_address}}</h3>
+      <h3 class="content">전화번호: {{booking.booking_branch.branch_tel}}</h3>
       {% if booking.booking_branch.branch_image %}
         <img class="thumb" src="{{ booking.booking_branch.branch_image.url }}">
       {% endif %}
-      <p class="content">기타요청사항 : {{ booking.booking_etc }}</p>
+      <h3 class="content">기타 요청사항 및 문의사항</h3>
+      <p class="content">{{ booking.booking_etc }}</p>
       <a class="location" target="_blank" href="{{ booking.booking_branch.branch_link }}">
         <img class="cp-icon" src="{% static 'login/icons/ic-pin.svg' %}" alt="Pin Icon">
-        <span>위치보기</span>
+        <span>카카오맵 위치보기</span>
       </a>
     </div>
 
@@ -108,9 +110,16 @@
     {% comment %} 댓글 작성 폼 {% endcomment %}
     <form class="comment-create-form" action="{% url 'booking:booking-comment-create' booking.id %}" method="post">
       {% csrf_token %}
-      {% if user.is_authenticated %}
-        {{ form.content|attr:"placeholder:댓글 내용을 입력해주세요."|add_class:"cp-input" }}
-        <button class="cp-button small" type="submit">등록</button>
+      {% if user.is_authenticated%}
+        {% if user.employee %}
+          {{ form.content|attr:"placeholder:고객은 당신의 친절한 안내에 큰 감동을 받습니다 :)"|add_class:"cp-input" }}
+          <button class="cp-button small" type="submit">등록</button>
+        {% else %}
+        <a href="{% url 'account_login' %}?next={% url 'booking:booking-detail' booking.id %}">
+          {{ form.content|attr:"placeholder:직원이 댓글을 등록해드립니다 :)"|add_class:"cp-input"|attr:"disabled" }}
+        </a>
+        <button class="cp-button small secondary" type="submit" disabled=>등록</button>  
+        {% endif %}
       {% else %}
         <a href="{% url 'account_login' %}?next={% url 'booking:booking-detail' booking.id %}">
           {{ form.content|attr:"placeholder:댓글을 작성하려면 로그인이 필요합니다."|add_class:"cp-input"|attr:"disabled" }}
@@ -168,12 +177,11 @@
     </div>
   </div>
 
-
     <div class="footer">
       <a class="back-link" href="{% url 'booking:profile' user.id %}">&lt; 목록으로</a>
       {% if booking.booking_client == user %}
       <div class="buttons">
-        <a class="cp-button warn" href="{% url 'booking:booking-delete' booking.id %}"> 예약 취소 </a>
+        <a class="cp-button warn" href="{% url 'booking:booking-delete' booking.id %}"> 예약 강제 취소 </a>
         {% comment %} <a class="cp-button secondary" href="#">수정</a> {% endcomment %}
       </div>
       {% endif %}

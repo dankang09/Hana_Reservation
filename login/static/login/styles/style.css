@@ -85,6 +85,14 @@ ul.navbar li ~ li {
   margin-left: 65px;
 }
 
+@media (max-width:640px) {
+  ul.navbar li ~ li {
+    margin-left: 25px;
+    margin-right: 15px;
+  }
+}
+
+
 ul.navbar li {
   font-size: 17px;
   letter-spacing: -0.26px;
@@ -123,11 +131,26 @@ ul.navbar li {
   margin: 72px auto 340px;
 }
 
+@media (max-width: 640px) {
+  .content-list {
+    padding: 0px 15px;
+    margin-top: 40px;
+  }
+}
+
+
 .content-list .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 25px 15px 25px 25px;
+}
+
+@media (max-width: 640px) {
+  .content-list .header {
+    flex-direction: column;
+    margin: 40px 10px;
+  }
 }
 
 .content-list .header h2 {
@@ -139,7 +162,7 @@ ul.navbar li {
 .content-list .contents {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 46px 40px;
+  gap: 46px 10px;
 }
 
 @media (max-width: 640px) {
@@ -147,6 +170,11 @@ ul.navbar li {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 }
+/*  */
+/* .content-list .contents a {
+  height: 200px;
+} */
+/*  */
 
 .content-list .contents .empty {
   margin: 120px auto;
@@ -299,6 +327,12 @@ ul.navbar li {
   z-index: 1;
 }
 
+@media (max-width: 640px) {
+  .main-header .content {
+    background-position: center;
+  }
+}
+
 .main-header .content > h1 {
   text-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
   font-size: 40px;
@@ -309,6 +343,13 @@ ul.navbar li {
   margin-bottom: 40px;
 }
 
+@media (max-width: 640px) {
+  .main-header .content > h1 {
+    font-size: 30px;
+    letter-spacing: 13px;
+  }
+}
+
 .main-header .header-search {
   padding: 15px 18px 15px 17px;
   border-radius: 8px;
@@ -316,11 +357,24 @@ ul.navbar li {
   box-shadow: 0 3px 16px 0 #46433d;
 }
 
+@media (max-width: 640px) {
+  .main-header .header-search {
+    width: 90%;
+    padding: 10px;
+  }
+}
+
 /* search-form */
 
 .search-form {
   width: 615px;
   display: flex;
+}
+
+@media (max-width: 640px) {
+  .search-form {
+    width: 100%;
+  }
 }
 
 /* search-input */
@@ -340,8 +394,20 @@ input.search-input {
   background-position: 18px 15px;
 }
 
+@media (max-width: 640px) {
+  input.search-input {
+    font-size: 11.2px;
+    padding: 12px 0 12px 43px;
+  }
+}
+
 input.search-input::placeholder {
   color: var(--input-placeholder);
+}
+
+@media (max-width: 640px) {
+  input.search-input::placeholder {
+  }
 }
 
 /* search-button */
@@ -352,6 +418,14 @@ input.search-input::placeholder {
   font-size: 21px;
   font-weight: bold;
   margin-left: 12px;
+}
+
+@media (max-width: 640px) {
+  .search-form .cp-button {
+    font-size: 17px;
+    width: 23%;
+    padding: 0px;
+  }
 }
 
 /* search-results */
@@ -368,6 +442,12 @@ input.search-input::placeholder {
 
 .review-detail {
   margin: 80px auto 340px;
+}
+
+@media (max-width: 640px) {
+  .review-detail {
+    padding: 0px 15px;
+  }
 }
 
 .review-detail .review-info {
@@ -559,6 +639,14 @@ a.like-button:hover {
   margin-bottom: 30px;
 }
 
+@media (max-width: 640px) {
+  .comment-create-form {
+    flex-direction: column;
+  }
+}
+
+
+
 .comment-create-form a {
   width: 100%;
 }
@@ -600,12 +688,28 @@ a.like-button:hover {
   margin: 85px auto 410px;
 }
 
+@media (max-width: 640px) {
+  .review-form h2 {
+    padding-left: 15px;
+  }
+}
+
+
 .review-form > .title,
 .review-form > .rating,
 .review-form > .content,
 .review-form > .file,
 .review-form > .buttons {
   grid-column: span 2;
+}
+
+@media (max-width: 640px) {
+  .review-form .title,
+  .review-form .file,
+  .review-form .content,
+  .review-form .buttons {
+    padding: 0px 15px;
+  }
 }
 
 .review-form > .restaurant-name,
@@ -709,6 +813,12 @@ a.like-button:hover {
   align-items: center;
 }
 
+@media (max-width: 640px) {
+  .profile-header .content {
+    flex-direction: column;
+  }
+}
+
 .profile-header .profile-pic {
   flex-shrink: 0;
   margin-right: 15px;
@@ -717,6 +827,12 @@ a.like-button:hover {
 .profile-header .info {
   flex-grow: 1;
   overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .profile-header .info {
+    text-align: center;
+  }
 }
 
 .profile-header .username {
@@ -744,6 +860,16 @@ a.like-button:hover {
 .profile-header .follow-section {
   margin: auto 20px;
   white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .profile-header .follow-section {
+    /* width: 25%; */
+    font-size: 14px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px; 
+  }
 }
 
 .profile-header .vert-divider {
@@ -832,13 +958,19 @@ a.like-button:hover {
   width: 100%;
 }
 
+@media (max-width: 640px) {
+  .account {
+    margin: 80px auto;
+  }
+}
+
 .account .title {
   margin: 24px auto;
   text-align: center;
 }
 
 .account .logo {
-  width: 300px;
+  width: 200px;
 }
 
 .account .form-error {
@@ -854,6 +986,14 @@ a.like-button:hover {
   display: block;
   width: 100%;
   margin: 0;
+}
+
+@media (max-width: 640px) {
+  .account button[type="submit"] {
+    width: 90%;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
 }
 
 .account .info .item {

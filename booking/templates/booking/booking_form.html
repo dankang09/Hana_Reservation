@@ -79,7 +79,7 @@
     </div> {% endcomment %}
 
     <div class="content">
-      {{ form.booking_etc|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:기타 요청사항 및 문의사항" }}
+      {{ form.booking_etc|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:여기에 자세한 업무 요청사항 및 문의사항을 입력하시면 직원이 가능한 빠른 시간 내에 댓글을 달아드립니다 :)" }}
       {% for error in form.booking_etc.errors %}
         <div class="error-message"> {{ error }} </div>
       {% endfor %}

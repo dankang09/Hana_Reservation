@@ -208,6 +208,16 @@ textarea.cp-input,
   border-radius: 7px;
 }
 
+@media (max-width: 640px) {
+  input.cp-input,
+  textarea.cp-input,
+  .cp-input input {
+    width: 90%;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+}
+
 input.cp-input:focus,
 textarea.cp-input:focus,
 .cp-input input:focus {
@@ -297,6 +307,13 @@ textarea.cp-input {
   height: 100px;
 }
 
+@media (max-width: 640px) {
+  .cp-avatar.large {
+    width: 70px;
+    height: 70px;
+  }
+}
+
 .cp-avatar.medium {
   width: 60px;
   height: 60px;
@@ -323,10 +340,22 @@ textarea.cp-input {
   background-color: var(--dialog-background);
 }
 
+@media (max-width: 640px) {
+  .cp-dialog {
+    margin: 15px;
+  }
+}
+
 .cp-dialog.info {
   color: var(--dialog-info);
   border-color: transparent;
   background-color: transparent;
+}
+
+@media (max-width: 640px) {
+  .cp-dialog .cp-button {
+    margin-top: 20px;
+  }
 }
 
 /* Box */

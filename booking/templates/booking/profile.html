@@ -17,7 +17,7 @@
       <div
         class="cp-avatar large profile-pic" style="background-image: url('{{ profile_user.profile_pic.url }}')"></div>
       <div class="info">
-        <h1 class="username"> {{ profile_user.employee.employee_branch.branch_name }} 지점의 {{ profile_user.name }} 직원님! 환영합니다.</h1>
+        <h1 class="username"> {{ profile_user.employee.employee_branch.branch_name }} 지점 {{ profile_user.name }}님</h1>
         {% if profile_user == user %}
         <a class="edit" href="{% url 'login:profile-update' %}">
           <img class="cp-icon small" src="{% static 'login/icons/ic-pen.svg' %}" alt="Pen Icon">
@@ -62,23 +62,67 @@
     <div class="header">
       <h2>{{ profile_user.employee.employee_branch }}지점의 예약 현황</h2>
       <p class='help'> 우리 지점의 예약은 가장 최근 10건 까지만 보여요 :)</p>
-      <a class="cp-ic-button after circle morereview" href="{% url 'booking:branch-list' %}">
+      {% comment %} <a class="cp-ic-button after circle morereview" href="{% url 'booking:branch-list' %}">
         지점 전체보기
-      </a>
+      </a> {% endcomment %}
     </div>
 
     <div class="contents">
       {% for booking in branch_bookings %}
       <a href="{% url 'booking:booking-detail' booking.id %}">
         <div class="cp-card content">
-          <div
+          {% comment %} <div
             class="thumb"
             style="background-image: url('{{ booking.image1.url }}');"
-          ></div>
+          ></div> {% endcomment %}
           <div class="body">
             <span class="cp-chip green">{{ booking.booking_branch.branch_name }} 지점</span>
-            <h2 class="title">{{ booking.booking_branch.branch_address }}</h2>
-            <date class="date">{{ booking.booking_dates|date:"Y년 n월 j일" }}</date>
+            <h2 class="title">{{ booking.booking_dates|date:"Y년 n월 j일" }}
+              {% if booking.booking_times == 1 %}
+                오전 9시 정각
+              {% elif booking.booking_times == 2 %}
+                오전 9시 30분
+              {% elif booking.booking_times == 3 %}
+                오전 10시 정각
+              {% elif booking.booking_times == 4 %}
+                오전 10시 30분
+              {% elif booking.booking_times == 5 %}
+                오전 11시 정각
+              {% elif booking.booking_times == 6 %}
+                오전 11시 30분
+              {% elif booking.booking_times == 7 %}
+                오후 12시 정각
+              {% elif booking.booking_times == 8 %}
+                오후 12시 30분
+              {% elif booking.booking_times == 9 %}
+                오후 1시 정각
+              {% elif booking.booking_times == 10 %}
+                오후 1시 30분
+              {% elif booking.booking_times == 11 %}
+                오후 2시 정각
+              {% elif booking.booking_times == 12 %}
+                오후 2시 30분
+              {% elif booking.booking_times == 13 %}
+                오후 3시 정각
+              {% else %}
+                오후 3시 30분
+              {% endif %}
+            </h2>
+            <date class="date">
+              {% if booking.booking_task == 1 %}
+                개인/가계 예금(수신) 업무
+              {% elif booking.booking_task == 2 %}
+                개인/가계 대출(여신) 업무
+              {% elif booking.booking_task == 3 %}
+                개인/가계 외환 업무
+              {% elif booking.booking_task == 4 %}
+                기업 예금(수신) 업무
+              {% elif booking.booking_task == 5 %}
+                기업 대출(여신) 업무
+              {% else %}
+                기업 외환 업무
+              {% endif %}
+            </date>
             <div class="metadata">
               <div class="review-rating">
                 <span class="cp-stars">
@@ -90,7 +134,7 @@
                   class="cp-avatar"
                   style="background-image: url('{{ booking.booking_client.profile_pic.url }}')">
                 </div>
-                <span>{{ booking.booking_client.name }}</span>
+                <span>{{ booking.booking_client.name }} 고객님의 예약</span>
               </div>
             </div>
           </div>
@@ -154,7 +198,7 @@
       <h2>{{ profile_user.name }}님의 예약 현황</h2>
       <p class='help'> 예약은 가장 최근 4건 까지만 보여요 :)</p>
       <a class="cp-ic-button after circle morereview" href="{% url 'booking:branch-list' %}">
-        지점 전체보기
+        예약 하러가기
       </a>
     </div>
 
@@ -162,15 +206,13 @@
       {% for booking in user_bookings %}
       <a href="{% url 'booking:booking-detail' booking.id %}">
         <div class="cp-card content">
-          <div
+          {% comment %} <div
             class="thumb"
             style="background-image: url('{{ booking.image1.url }}');"
-          ></div>
+          ></div> {% endcomment %}
           <div class="body">
             <span class="cp-chip green">{{ booking.booking_branch.branch_name }} 지점</span>
-            <h2 class="title">{{ booking.booking_branch.branch_address }}</h2>
-            <date class="date">{{ booking.booking_dates|date:"Y년 n월 j일" }}</date>
-            {% comment %} asd<p>asd
+            <h2 class="title">{{ booking.booking_dates|date:"Y년 n월 j일" }}
               {% if booking.booking_times == 1 %}
                 오전 9시 정각
               {% elif booking.booking_times == 2 %}
@@ -200,7 +242,22 @@
               {% else %}
                 오후 3시 30분
               {% endif %}
-            </p> {% endcomment %}
+            </h2>
+            <date class="date">
+              {% if booking.booking_task == 1 %}
+                개인/가계 예금(수신) 업무
+              {% elif booking.booking_task == 2 %}
+                개인/가계 대출(여신) 업무
+              {% elif booking.booking_task == 3 %}
+                개인/가계 외환 업무
+              {% elif booking.booking_task == 4 %}
+                기업 예금(수신) 업무
+              {% elif booking.booking_task == 5 %}
+                기업 대출(여신) 업무
+              {% else %}
+                기업 외환 업무
+              {% endif %}
+            </date>
             <div class="metadata">
               <div class="review-rating">
                 <span class="cp-stars">
