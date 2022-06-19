@@ -307,7 +307,7 @@ class BookingCreateView(LoginAndVerificationRequiredMixin, CreateView):
         else:
             time = "오후 3시 30분"
 
-        body_ = str(user.name)+"님,\n"+str(form.instance.booking_dates)+"일 "+str(time)+"에 "+str(form.instance.booking_branch.branch_name)+"지점으로 "+"예약이 완료 되었습니다. \n"+"아래 링크를 통해 확인하세요 \n"+"https://danielkang09.pythonanywhere.com/"+"booking/users/"+str(user.id)
+        body_ = str(user.name)+"님,\n"+str(form.instance.booking_dates)+"일 "+str(time)+"에 "+str(form.instance.booking_branch.branch_name)+"지점으로 "+"예약이 완료 되었습니다. \n"+"아래 링크를 통해 확인하세요 \n"+"https://danielkang09.pythonanywhere.com/"
         to_ = "+82"+str(user.phone)[1:]
         from_ = "+16623408057"
         message = client.messages.create(body=body_, from_=from_, to=to_)
@@ -338,6 +338,19 @@ class BookingCommentCreateView(LoginAndVerificationRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.instance.comment_booking = Booking.objects.get(id=self.kwargs.get('booking_id'))
+
+        # 문자보내는 기능
+        user = self.request.user
+        account_sid = 'AC5e15e7090552e11e22dd0e3e207118aa'
+        auth_token = '2d85332bcac1905a70de2d089b16180a'
+        client = Client(account_sid, auth_token)
+
+        body_ = "Hana Booking\n"+str(form.instance.comment_booking.booking_client.name)+"님, 예약 문의사항에 답변이 등록되었습니다."+" 아래 링크를 통해 확인하세요 \n"+"https://danielkang09.pythonanywhere.com/"
+        to_ = "+82"+str(form.instance.comment_booking.booking_client.phone)[1:]
+        from_ = "+16623408057"
+        message = client.messages.create(body=body_, from_=from_, to=to_)
+        print(message.sid)
+
         return super().form_valid(form)
 
     def get_success_url(self):
