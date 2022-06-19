@@ -307,10 +307,9 @@ class BookingCreateView(LoginAndVerificationRequiredMixin, CreateView):
         else:
             time = "오후 3시 30분"
 
-        body_ = str(user.name)+"님,\n"+str(form.instance.booking_dates)+"일 "+str(time)+"에 "+str(form.instance.booking_branch.branch_name)+"지점으로 "+"예약이 완료 되었습니다. \n"+"아래 링크를 통해 확인하세요 \n"+"https://danielkang09.pythonanywhere.com/"
-        to_ = "+821092303870"
+        body_ = str(user.name)+"님,\n"+str(form.instance.booking_dates)+"일 "+str(time)+"에 "+str(form.instance.booking_branch.branch_name)+"지점으로 "+"예약이 완료 되었습니다. \n"+"아래 링크를 통해 확인하세요 \n"+"https://danielkang09.pythonanywhere.com/"+"booking/users/"+str(user.id)
+        to_ = "+82"+str(user.phone)[1:]
         from_ = "+16623408057"
-        status_callback ='http://127.0.0.1:8000/'
         message = client.messages.create(body=body_, from_=from_, to=to_)
         print(message.sid)
         return super().form_valid(form)
