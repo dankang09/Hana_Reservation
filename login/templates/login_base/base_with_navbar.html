@@ -11,15 +11,13 @@
     <nav>
       <ul class="navbar">
         {% if user.is_authenticated %}
-          {% if user.is_staff %}
-            <li><a href="{% url 'admin:index' %}">관리자</a></li>
-          {% endif %}
+          {% comment %} {% if user.is_staff %}
+            <li><a href="{% url 'admin:index' %}">관리자</a></li> {% endcomment %}
           <li><a href="{% url 'booking:profile' user.id %}">예약현황</a></li>
-          {% comment %} <li><a href="{% url 'booking:branch-list' %}">지점검색</a></li> {% endcomment %}
           <li><a href="{% url 'account_logout' %}">로그아웃</a></li>
         {% else %}
           <li><a href="{% url 'account_login' %}">로그인</a></li>
-          <li><a href="{% url 'account_signup' %}">간편가입</a></li>
+          <li><a href="{% url 'booking:branch-list' %}">지점검색</a></li>
         {% endif %}
       </ul>
     </nav>
@@ -30,7 +28,7 @@
 {% block footer %}
 <footer class="site-footer">
   <div class="max-content-width content">
-    <div>© 2022 Powered by KAIST-HANA bank Digital Warrior 2기 은행 영업점 방문예약 시스템</div>
+    <div>© 2022 Powered by KAIST-HANA bank DigitalWarrior 2기 5조</div>
     <div>Hana Booking</div>
   </div>
 </footer>

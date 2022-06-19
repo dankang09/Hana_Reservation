@@ -7,11 +7,24 @@
   text-align: center;
 }
 
+@media (max-width:640px) {
+  .home_slogan {
+    margin-top: 80px;
+  }
+}
+
 .slogan {
   font-size: 50px;
   margin: 0;
   margin-bottom: 13px;
   font-weight: 400;
+}
+
+@media (max-width:640px) {
+  .slogan {
+    font-size: 37px;
+    margin-bottom: 35px;
+  }
 }
 
 .home_slogan p {

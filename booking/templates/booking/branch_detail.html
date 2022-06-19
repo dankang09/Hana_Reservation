@@ -54,13 +54,16 @@
     </div>
 
     <div class="content">
+        {% comment %} 네이버지도 {% endcomment %}
+        <div id="map" style="width:100%;height:400px;"></div>
+        {% comment %} <h3 class="content" id="branch_address">{{branch.branch_address}}</h3>
         {% if branch.branch_image %}
             <img class="thumb" src="{{ branch.branch_image.url }}">
-        {% endif %}
+        {% endif %} {% endcomment %}
         {% comment %} <p class="content">기타요청사항 : {{ }}</p> {% endcomment %}
-        <a class="location" target="_blank" href="{{ branch_link }}">
+        <a class="location" target="_blank" href="{{ branch.branch_link }}">
             <img class="cp-icon" src="{% static 'login/icons/ic-pin.svg' %}" alt="Pin Icon">
-            <span>위치보기</span>
+            <span>카카오맵 위치보기</span>
         </a>
     </div>
 
@@ -165,4 +168,64 @@
     </div>
     </article>
 </main>
+
+
+{% comment %} 네이버지도 {% endcomment %}
+<script>
+  var branch_address = '{{branch.branch_address}}';
+  console.log(branch_address);
+
+  {% comment %} geocoding {% endcomment %}
+  naver.maps.Service.geocode({
+    address: branch_address
+}, function(status, response) {
+    if (status !== naver.maps.Service.Status.OK) {
+        return alert('Something wrong!');
+    }
+
+    var result = response.result, // 검색 결과의 컨테이너
+        items = result.items; // 검색 결과의 배열
+
+    var result_x = result.items[0].point.x;
+    var result_y = result.items[0].point.y;
+
+    var mapOptions = {
+      center: new naver.maps.LatLng(result_y, result_x),
+      zoom: 15,
+      minZoom: 10,
+      zoomControl: true
+  };
+
+  var contentString = [
+        '<div class="iw_inner">',
+        '   <h3>{{ branch.branch_name }} 지점</h3>',
+        '   <p>{{ branch.branch_address }}<br />',
+        '       {{ branch.branch_tel }}<br />',
+        '   </p>',
+        '</div>'
+    ].join('');
+  
+  var map = new naver.maps.Map('map', mapOptions);
+
+  var marker = new naver.maps.Marker({
+    map: map,
+    position: new naver.maps.LatLng(result_y, result_x)
+  });
+
+  var infowindow = new naver.maps.InfoWindow({
+    content: contentString,
+
+  });
+
+  naver.maps.Event.addListener(marker, "click", function(e) {
+    if (infowindow.getMap()) {
+        infowindow.close();
+    } else {
+        infowindow.open(map, marker);
+    }
+});
+
+}); 
+
+  </script>
 {% endblock content %}

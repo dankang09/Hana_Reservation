@@ -10,7 +10,13 @@
     <link rel="stylesheet" type="text/css" href="{% static 'login/styles/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'login/styles/theme.css' %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'login/favicon/favicon.ico' %}">
+    
+    {% comment %} 네이버지도 {% endcomment %}
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2h7jqpq50d"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 
+    {% comment %} 네이버지도-geocoding {% endcomment %}
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=2h7jqpq50d&submodules=geocoder"></script>
     {% block css %}
     {% endblock css %}
 

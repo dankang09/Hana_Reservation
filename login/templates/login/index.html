@@ -16,17 +16,29 @@
       예약은
       <strong>하나은행</strong>으로
     </h2>
-
-    <p>
-      예금상담부터 대출상담까지,
-      <br>
-      간편하게 로그인하고 바로 예약하세요!
-    </p>
-    
     {% if user.is_authenticated %}
-    <a href={% url 'booking:profile' user.id %}>내 예약 확인하기</a>
+      {% if user.employee %}
+      <p>
+        지점프로필 관리, 고객 예약관리를
+        <br>
+        Hana Booking을 통해 간단하게!
+      </p>
+        <a href={% url 'booking:profile' user.id %}>우리지점 예약 확인하기</a>
+      {% else %}
+        <p>
+          예금상담부터 대출상담까지,
+          <br>
+          간편하게 로그인하고 바로 예약하세요!
+        </p>
+        <a href={% url 'booking:profile' user.id %}>내 예약 확인하기</a>
+      {% endif %}
     {% else %}
-    <a href={% url 'account_login' %}>지금 바로 간편로그인하기</a>
+      <p>
+        예금상담부터 대출상담까지,
+        <br>
+        간편하게 로그인하고 바로 예약하세요!
+      </p>
+      <a href={% url 'account_login' %}>지금 바로 간편로그인하기</a>
     {% endif %} 
   </div>
 </div>

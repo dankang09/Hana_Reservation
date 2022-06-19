@@ -23,6 +23,10 @@ from login.models import User
 # 리팩터링된 접근제어
 from .mixins import LoginAndVerificationRequiredMixin, LoginAndOwnershipRequiredMixin, LoginAndOwnershipRequiredMixin2
 
+# 문자 알림
+import os
+from twilio.rest import Client
+
 # Create your views here.
 
 class ProfileView(DetailView):
@@ -267,6 +271,48 @@ class BookingCreateView(LoginAndVerificationRequiredMixin, CreateView):
         branch_id = self.kwargs.get("branch_id")
         # 가져온 branch_id로 브랜치 객체 찾아서 폼에 넣기
         form.instance.booking_branch = Branch.objects.get(id = branch_id)
+
+        # 문자보내는 기능
+        user = self.request.user
+        account_sid = 'AC5e15e7090552e11e22dd0e3e207118aa'
+        auth_token = '2d85332bcac1905a70de2d089b16180a'
+        client = Client(account_sid, auth_token)
+        
+        if form.instance.booking_times == 1:
+            time = "오전 9시"
+        elif form.instance.booking_times == 2:
+            time = "오전 9시 30분"
+        elif form.instance.booking_times == 3:
+            time = "오전 10시"
+        elif form.instance.booking_times == 4:
+            time = "오전 10시 30분"
+        elif form.instance.booking_times == 5:
+            time = "오전 11시"
+        elif form.instance.booking_times == 6:
+            time = "오전 11시 30분"
+        elif form.instance.booking_times == 7:
+            time = "오전 12시"
+        elif form.instance.booking_times == 8:
+            time = "오전 12시 30분"
+        elif form.instance.booking_times == 9:
+            time = "오후 1시"
+        elif form.instance.booking_times == 10:
+            time = "오후 1시 30분"
+        elif form.instance.booking_times == 11:
+            time = "오후 2시"
+        elif form.instance.booking_times == 12:
+            time = "오후 2시 30분"
+        elif form.instance.booking_times == 13:
+            time = "오후 3시"
+        else:
+            time = "오후 3시 30분"
+
+        body_ = str(user.name)+"님,\n"+str(form.instance.booking_dates)+"일 "+str(time)+"에 "+str(form.instance.booking_branch.branch_name)+"지점으로 "+"예약이 완료 되었습니다. \n"+"아래 링크를 통해 확인하세요 \n"+"https://danielkang09.pythonanywhere.com/"
+        to_ = "+821092303870"
+        from_ = "+16623408057"
+        status_callback ='http://127.0.0.1:8000/'
+        message = client.messages.create(body=body_, from_=from_, to=to_)
+        print(message.sid)
         return super().form_valid(form)
 
     def get_success_url(self):
