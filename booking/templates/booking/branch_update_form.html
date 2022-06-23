@@ -23,7 +23,7 @@
 
     <h3> 지점 이름 </h3>
     <div class="nickname">
-      {{ form.branch_name|add_class:"cp-input"|add_error_class:"error"|attr:"placeholder:지점 이름" }}
+      {{ form.branch_name|add_class:"cp-input secondary"|add_error_class:"error"|attr:"placeholder:지점 이름" }}
       {% for error in form.branch_name.errors %}
         <div class="error-message">{{ error }}</div>
       {% endfor %}
@@ -66,8 +66,7 @@
 
     <div class="buttons">
       <a class="cp-button secondary cancel" href="{% url 'booking:profile' user.id %}">취소</a>
-      <button class="cp-button" 
-              type="submit">완료</button>
+      <button class="cp-button" type="submit">완료</button>
     </div>
   </form>
 </main>

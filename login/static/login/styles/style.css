@@ -681,11 +681,21 @@ a.like-button:hover {
 
 /* review-form */
 
+
+
 .review-form {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 25px 14px;
   margin: 85px auto 410px;
+}
+
+@media (max-width: 640px) {
+  .review-form {
+    grid-template-columns: repeat(1, 1fr);
+    margin: 40px auto 200px;
+    width: 100%;
+  }
 }
 
 @media (max-width: 640px) {
@@ -707,8 +717,10 @@ a.like-button:hover {
   .review-form .title,
   .review-form .file,
   .review-form .content,
-  .review-form .buttons {
-    padding: 0px 15px;
+  .review-form .buttons,
+  .review-form .cp-button {
+    width: 90%;
+    margin: 0px 10px;
   }
 }
 
@@ -1034,10 +1046,22 @@ a.like-button:hover {
   width: 100%;
 }
 
+/* @media(max-width: 640px) {
+  .account-password {
+    padding: 34px 75px;
+  }
+} */
+
 .account-password .title {
   margin: 24px auto;
   text-align: center;
 }
+
+/* @media(max-width: 640px) {
+  .account-password .title {
+    width: 100%;
+  }
+} */
 
 .account-password .heading {
   font-size: 25px;
@@ -1071,6 +1095,20 @@ a.like-button:hover {
   max-width: 440px;
   width: 100%;
 }
+
+@media(max-width: 640px) {
+  .profile-form{
+    margin: 50px auto;
+  }
+}
+
+@media(max-width: 640px) {
+  .profile-form p,
+  .profile-form form {
+    padding: 0 15px;
+  }
+}
+
 
 .profile-form .logo {
   margin: auto;
@@ -1120,6 +1158,12 @@ a.like-button:hover {
 .profile-form .buttons {
   display: flex;
   width: 100%;
+}
+
+@media(max-width: 640px) {
+  .profile-form .buttons {
+    padding: 0 15px;
+  }
 }
 
 .profile-form .buttons > button[type="submit"] {

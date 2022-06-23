@@ -366,6 +366,12 @@ textarea.cp-input {
   border: solid 2px var(--box-border);
 }
 
+@media(max-width: 640px) {
+  .cp-box {
+    padding: 10px 15px;
+  }
+}
+
 /* Icon */
 
 .cp-icon {

@@ -51,8 +51,8 @@ class ProfileView(DetailView):
             # 우리 지점의 최신 예약 10개 가져오기
             context["branch_bookings"] = Booking.objects.filter(booking_branch=employee_branch).order_by("-booking_dates")[:10]
         else:
-            # 유저의 최신 예약 4개 가져오기
-            context["user_bookings"] = Booking.objects.filter(booking_client=user_id).order_by("-booking_dates")[:4]
+            # 유저의 최신 예약 10개 가져오기
+            context["user_bookings"] = Booking.objects.filter(booking_client=user_id).order_by("-booking_dates")[:10]
         return context
     
 
@@ -103,6 +103,7 @@ class BranchUpdateView(UpdateView):
         # 현재 유저로부터 브랜치정보 가져오기
         user_branch = self.request.user.employee.employee_branch
         print("안녕1")
+        print(user_branch)
         return user_branch
 
     def get_success_url(self):
@@ -272,7 +273,7 @@ class BookingCreateView(LoginAndVerificationRequiredMixin, CreateView):
         # 가져온 branch_id로 브랜치 객체 찾아서 폼에 넣기
         form.instance.booking_branch = Branch.objects.get(id = branch_id)
 
-        # 문자보내는 기능
+        # sms to client
         user = self.request.user
         account_sid = 'AC5e15e7090552e11e22dd0e3e207118aa'
         auth_token = '2d85332bcac1905a70de2d089b16180a'
@@ -307,11 +308,21 @@ class BookingCreateView(LoginAndVerificationRequiredMixin, CreateView):
         else:
             time = "오후 3시 30분"
 
-        body_ = str(user.name)+"님,\n"+str(form.instance.booking_dates)+"일 "+str(time)+"에 "+str(form.instance.booking_branch.branch_name)+"지점으로 "+"예약이 완료 되었습니다. \n"+"아래 링크를 통해 확인하세요 \n"+"https://danielkang09.pythonanywhere.com/"
-        to_ = "+82"+str(user.phone)[1:]
-        from_ = "+16623408057"
-        message = client.messages.create(body=body_, from_=from_, to=to_)
-        print(message.sid)
+        body_1 = str(user.name)+"님,\n"+str(form.instance.booking_dates)+"일 "+str(time)+"에 "+str(form.instance.booking_branch.branch_name)+"지점으로 "+"예약이 완료 되었습니다. \n"+"아래 링크를 통해 확인하세요 \n"+"https://danielkang09.pythonanywhere.com/"
+        to_1 = "+82"+str(user.phone)[1:]
+        from_1 = "+16623408057"
+        message_1 = client.messages.create(body=body_1, from_=from_1, to=to_1)
+        print(message_1.sid)
+
+        #sms to employee
+        print(form.instance.booking_branch)
+        # for i in form.instance.booking_branch.employees:
+        #     print (i.id)
+        # body_2 = str(employee.name)+"님,\n"+str(form.instance.booking_dates)+"일 "+str(time)+"에 "+str(form.instance.booking_branch.branch_name)+"지점으로 "+"예약이 접수 되었습니다. \n"+"아래 링크를 통해 확인하세요 \n"+"https://danielkang09.pythonanywhere.com/"
+        # to_2 = "+82"+str(employee.phone)[1:]
+        # from_2= "+16623408057"
+        # message_2 = client.messages.create(body=body_2, from_=from_2, to=to_2)
+        # print(message_2.sid)
         return super().form_valid(form)
 
     def get_success_url(self):
