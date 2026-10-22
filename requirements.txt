@@ -1,0 +1,9 @@
+# Python 3.8 기준 (2022년 개발 당시 환경)
+Django==2.2.28
+django-allauth==0.50.0
+django-widget-tweaks==1.4.12
+django-braces==1.15.0
+twilio==7.16.0
+Pillow==9.5.0
+python-dotenv==1.0.1
+setuptools<70

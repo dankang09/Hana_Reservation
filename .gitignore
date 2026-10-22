@@ -1,0 +1,16 @@
+# 비밀값
+.env
+# 로컬 DB·업로드 파일 (실사용자 정보 포함 가능)
+db.sqlite3
+media/*
+!media/default_profile_pic.jpg
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.python-version
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/

@@ -1,4 +1,4 @@
-from shutil import unregister_unpack_format
+from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views.generic import (
@@ -275,8 +275,8 @@ class BookingCreateView(LoginAndVerificationRequiredMixin, CreateView):
 
         # sms to client
         user = self.request.user
-        account_sid = 'REMOVED'
-        auth_token = 'REMOVED'
+        account_sid = settings.TWILIO_ACCOUNT_SID
+        auth_token = settings.TWILIO_AUTH_TOKEN
         client = Client(account_sid, auth_token)
         
         if form.instance.booking_times == 1:
@@ -308,19 +308,20 @@ class BookingCreateView(LoginAndVerificationRequiredMixin, CreateView):
         else:
             time = "오후 3시 30분"
 
-        body_1 = str(user.name)+"님,\n"+str(form.instance.booking_dates)+"일 "+str(time)+"에 "+str(form.instance.booking_branch.branch_name)+"지점으로 "+"예약이 완료 되었습니다. \n"+"아래 링크를 통해 확인하세요 \n"+"https://danielkang09.pythonanywhere.com/"
+        body_1 = str(user.name)+"님,\n"+str(form.instance.booking_dates)+"일 "+str(time)+"에 "+str(form.instance.booking_branch.branch_name)+"지점으로 "+"예약이 완료 되었습니다. \n"+"아래 링크를 통해 확인하세요 \n"+settings.SITE_URL
         to_1 = "+82"+str(user.phone)[1:]
-        from_1 = "+10000000000"
-        message_1 = client.messages.create(body=body_1, from_=from_1, to=to_1)
-        print(message_1.sid)
+        from_1 = settings.TWILIO_FROM_NUMBER
+        if account_sid and auth_token:  # Twilio 미설정 시 SMS 생략
+            message_1 = client.messages.create(body=body_1, from_=from_1, to=to_1)
+            print(message_1.sid)
 
         #sms to employee
         print(form.instance.booking_branch)
         # for i in form.instance.booking_branch.employees:
         #     print (i.id)
-        # body_2 = str(employee.name)+"님,\n"+str(form.instance.booking_dates)+"일 "+str(time)+"에 "+str(form.instance.booking_branch.branch_name)+"지점으로 "+"예약이 접수 되었습니다. \n"+"아래 링크를 통해 확인하세요 \n"+"https://danielkang09.pythonanywhere.com/"
+        # body_2 = str(employee.name)+"님,\n"+str(form.instance.booking_dates)+"일 "+str(time)+"에 "+str(form.instance.booking_branch.branch_name)+"지점으로 "+"예약이 접수 되었습니다. \n"+"아래 링크를 통해 확인하세요 \n"+settings.SITE_URL
         # to_2 = "+82"+str(employee.phone)[1:]
-        # from_2= "+10000000000"
+        # from_2 = settings.TWILIO_FROM_NUMBER
         # message_2 = client.messages.create(body=body_2, from_=from_2, to=to_2)
         # print(message_2.sid)
         return super().form_valid(form)
@@ -352,15 +353,16 @@ class BookingCommentCreateView(LoginAndVerificationRequiredMixin, CreateView):
 
         # 문자보내는 기능
         user = self.request.user
-        account_sid = 'REMOVED'
-        auth_token = 'REMOVED'
+        account_sid = settings.TWILIO_ACCOUNT_SID
+        auth_token = settings.TWILIO_AUTH_TOKEN
         client = Client(account_sid, auth_token)
 
-        body_ = "Hana Booking\n"+str(form.instance.comment_booking.booking_client.name)+"님, 예약 문의사항에 답변이 등록되었습니다."+" 아래 링크를 통해 확인하세요 \n"+"https://danielkang09.pythonanywhere.com/"
+        body_ = "Hana Booking\n"+str(form.instance.comment_booking.booking_client.name)+"님, 예약 문의사항에 답변이 등록되었습니다."+" 아래 링크를 통해 확인하세요 \n"+settings.SITE_URL
         to_ = "+82"+str(form.instance.comment_booking.booking_client.phone)[1:]
-        from_ = "+10000000000"
-        message = client.messages.create(body=body_, from_=from_, to=to_)
-        print(message.sid)
+        from_ = settings.TWILIO_FROM_NUMBER
+        if account_sid and auth_token:  # Twilio 미설정 시 SMS 생략
+            message = client.messages.create(body=body_, from_=from_, to=to_)
+            print(message.sid)
 
         return super().form_valid(form)
 

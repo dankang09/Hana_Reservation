@@ -12,6 +12,13 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+# 민감정보는 환경변수(.env)에서 읽습니다. .env.example 참고
+try:
+    from dotenv import load_dotenv
+    load_dotenv(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env'))
+except ImportError:
+    pass
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,16 +27,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'REMOVED'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-only-insecure-key-change-me')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# 배포
-# DEBUG = False
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
-# 배포
-# ALLOWED_HOSTS = ['.pythonanywhere.com']
+ALLOWED_HOSTS = [h for h in os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',') if h]
 
 # Application definition
 
@@ -195,8 +198,8 @@ SOCIALACCOUNT_PROVIDERS = {
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
         'APP': {
-            'client_id': '137fbb43f322c27b892072c70a3062c6',
-            'secret': 'REMOVED',
+            'client_id': os.environ.get('KAKAO_CLIENT_ID', ''),
+            'secret': os.environ.get('KAKAO_SECRET', ''),
             'key': ''
         }
     },
@@ -205,8 +208,8 @@ SOCIALACCOUNT_PROVIDERS = {
         # (``socialaccount`` app) containing the required client
         # credentials, or list them here:
         'APP': {
-            'client_id': 'hdFKYSFJToB97ZEocnGC',
-            'secret': 'REMOVED',
+            'client_id': os.environ.get('NAVER_CLIENT_ID', ''),
+            'secret': os.environ.get('NAVER_SECRET', ''),
             'key': ''
         }
     }
@@ -218,5 +221,11 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"  # smtp 이용하�
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "dankang09@gmail.com"
-EMAIL_HOST_PASSWORD = 'REMOVED'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+
+# 외부 연동 (Twilio SMS)
+TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID', '')
+TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN', '')
+TWILIO_FROM_NUMBER = os.environ.get('TWILIO_FROM_NUMBER', '')
+SITE_URL = os.environ.get('SITE_URL', 'http://127.0.0.1:8000/')
