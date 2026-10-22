@@ -81,13 +81,19 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-외부 연동 키는 모두 선택 사항입니다. 비워두면 해당 기능만 비활성화됩니다.
+외부 연동 키는 모두 선택 사항입니다. 비워둘 때의 동작은 아래와 같습니다.
+
+- **SMTP:** 메일을 실제로 보내지 않고 서버 콘솔에 출력합니다. 이메일 인증 링크도 콘솔에서 확인할 수 있습니다.
+- **Twilio:** SMS 발송을 건너뜁니다.
+- **카카오·네이버:** 소셜 로그인 버튼을 누르면 OAuth 오류가 발생합니다. 이메일 회원가입·로그인은 정상 동작합니다.
+
+`DJANGO_SECRET_KEY`와 `DJANGO_DEBUG`의 기본값은 로컬 실행용입니다. 배포하려면 반드시 새 키를 지정하고 `DJANGO_DEBUG=False`로 설정해야 합니다.
 
 | 환경변수 | 용도 |
 |---|---|
 | `DJANGO_SECRET_KEY`, `DJANGO_DEBUG`, `DJANGO_ALLOWED_HOSTS` | Django 기본 설정 |
 | `KAKAO_*`, `NAVER_*` | 소셜 로그인 |
-| `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD` | 이메일 인증 발송 (SMTP) |
+| `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD` | 이메일 인증 발송 (SMTP, 미설정 시 콘솔 출력) |
 | `TWILIO_*`, `SITE_URL` | SMS 알림 (미설정 시 발송 생략) |
 
 ## 보안 셀프 리뷰 (2026)
@@ -106,6 +112,8 @@ python manage.py runserver
 | 항목 | 내용 | 개선 방향 |
 |---|---|---|
 | 예약 상세 IDOR | `BookingDetailView`에 권한 검사가 없어, 예약 ID만 바꾸면 다른 고객의 예약을 조회할 수 있음 | 예약 소유자·소속 지점 직원만 조회하도록 `get_queryset` 제한 |
+| 예약 문의 댓글 권한 누락 | `BookingCommentCreateView`가 로그인·이메일 인증만 확인하고, 해당 예약의 고객·담당 직원인지는 확인하지 않음. 인증된 사용자라면 누구나 타인의 예약에 댓글을 달 수 있고, 그때마다 예약 고객에게 SMS가 발송됨 (코드 리뷰로 확인, 실제 요청 재현은 하지 않음) | 예약 소유자·소속 지점 직원만 작성하도록 권한 검사 추가 |
+| 존재하지 않는 예약 ID | 예약 댓글 작성 시 `Booking.objects.get`으로 조회해, 없는 ID면 404가 아닌 500 오류 발생 | `get_object_or_404` 사용 |
 | 지점 수정 예외 처리 | 직원 계정이 아닌 사용자가 지점 수정 URL에 접근하면 500 오류 발생 | 직원 여부 검사 믹스인 추가 후 403 반환 |
 | 운영 설정 | `DEBUG` 기본값 True, 정적·미디어 파일을 Django가 직접 서빙 | 배포 설정 분리, 웹 서버·스토리지로 서빙 |
 | 테스트 | 자동화 테스트 없음 | 권한 검사 뷰부터 단위 테스트 작성 |
